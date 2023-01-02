@@ -24,7 +24,7 @@ jobs:
 
     - name: Push to Repository
       run: |-
-        git config --global user.name "zeryab-workstreamautomation
+        git config --global user.name "zeryab-workstreamautomation"
         git config --global user.email "zeryab.khan@workstreamautomation.com"
         git add js
         git commit -m "build from server"
