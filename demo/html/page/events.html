@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <script>
+            // import the picture frame as the co element <co-pictureframe>:
+            this.name='Event Test'
+
+            window.setTimeout(()=>{
+                console.log('--------------------EVENT');   
+                this.invalidate('.wall-outer');             
+            },20000);
+
+            this.clock = (ev)=>{
+                let elem=document.querySelector('#fchild');
+
+                const event = new Event('build',{bubbles: true});
+
+
+                // Dispatch the event.
+                elem.dispatchEvent(event);
+            }
+
+            this.buildEvent= (ev)=>{
+                console.log('----------build---------');
+                console.log(ev);
+            }
+        </script>
+    </head>
+    <body>
+        <div class="wall-outer" data-test="${this.name}" onclick="this.clock(event)" co-onbuild="this.buildEvent(event)" sid="${Math.random()}">
+            ${this.name}
+            <div id="fchild">Child</div>
+
+        </div>
+
+    </body>
+</html>

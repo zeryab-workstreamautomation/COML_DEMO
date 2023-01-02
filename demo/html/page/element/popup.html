@@ -1,0 +1,254 @@
+<html>
+
+<head>
+    <script>
+
+
+
+        /* position and resize code */
+        this.pointerDown = (ev) => {
+            ev.stopPropagation();
+            let popup=this.$('.u-popup');
+
+            this.startOffsetWidth=popup.offsetWidth;
+            this.startOffsetHeight=popup.offsetHeight;
+            this.startOffsetLeft=popup.offsetLeft;
+            this.startOffsetTop=popup.offsetTop;
+
+
+            this.sx = ev.clientX;
+            this.sy = ev.clientY;
+            ev.target.addEventListener('pointermove', this.pointerMoved);
+            ev.target.setPointerCapture(ev.pointerId);
+        }
+
+        
+
+        this.pointerMoved = (ev) => {
+            ev.stopPropagation();
+
+            let c=ev.target.classList;
+
+            let left = this.startOffsetLeft+(ev.clientX - this.sx);
+            let top = this.startOffsetTop+(ev.clientY - this.sy);
+            let width = this.startOffsetWidth+(c.contains('u-left') ? -(ev.clientX - this.sx) : (ev.clientX - this.sx));
+            let height = this.startOffsetHeight+(c.contains('u-top') ? -(ev.clientY - this.sy) : (ev.clientY - this.sy));
+
+            this.$('.u-popup','pointerMoved',(popup)=>{
+                if (c.contains('u-left')||c.contains('u-positioner'))
+                    popup.style.left=`${left}px`;
+
+                if (c.contains('u-top')||c.contains('u-positioner'))
+                    popup.style.top=`${top}px`;
+
+                if (!c.contains('u-positioner')) {
+                    popup.style.width=`${width}px`;
+                    popup.style.height=`${height}px`;
+                }
+            })
+
+        }
+
+        this.pointerUp = (ev) => {
+            ev.stopPropagation();
+            ev.target.removeEventListener('pointermove', this.pointerMoved);
+            ev.target.releasePointerCapture(ev.pointerId);
+        }
+
+        this.close = (e) => {
+            this.$('.u-popup').classList.toggle('u-closed');
+            this.dispatchEvent('popupclosed');
+        }
+
+    </script>
+    <style>
+
+        .u-popup, .u-popup * {
+            --title-size: 2rem;
+            --title-bk-color: #99b28f;
+            --title-color: white;
+            --border-color: #cfcdcd;
+            --window-bk-color: white;
+            --resize-border-size: 0.25rem;
+            --resize-border-color: white;
+        }
+        .u-popup.u-closed {
+            opacity: 0.1;
+            display: none;
+        }
+
+        .u-popup {
+            box-sizing: border-box;
+            margin: 0.2rem;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            z-index: 100;
+            box-shadow: rgb(100 100 111 / 30%) 0px 7px 29px 0px;
+        }
+        .u-popup.u-inline {
+            position:static;
+        }
+
+        .u-border {
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            border:1px solid var(--border-color);
+            width: 100%;
+            height: 100%;
+        }
+
+        .u-border.u-resizable {
+            padding:var(--resize-border-size);
+            background-color: var(--resize-border-color);
+        }
+
+
+        /* title bar */
+
+        .u-popup .u-titlebar {
+            display: flex;
+            flex-direction: row;
+            background-color: var(--title-bk-color);
+            color: var(--title-color);
+            z-index: 50;
+        }
+
+        .u-titlebar .u-title {
+            width: 100%;
+            text-align: center;
+            line-height: var(--title-size);
+            font-size: calc(var(--title-size) * 0.6);
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        .u-positioner {
+            cursor: move;
+        }
+
+        .u-inline .u-positioner {
+            cursor: initial;
+        }
+
+        .u-titlebar .u-close,
+        .u-titlebar .u-spacer {
+            width: var(--title-size);
+            text-align: center;
+            line-height: var(--title-size);
+            font-size: calc(var(--title-size) * 0.7);
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* pickups */
+        .u-pic {
+            position: absolute;
+            width:50%;
+            height: 50%;
+        }
+
+        .u-pic.u-mid {
+            width:80%;
+            height: 80%;
+        }
+
+
+        .u-pic.u-disabled,
+        .u-inline .u-pic {
+            display: none;
+        }
+
+        .u-pic.u-top, 
+        .u-pic.u-bottom 
+        {
+            cursor: ns-resize;
+        }
+
+        .u-pic.u-left, 
+        .u-pic.u-right 
+        {
+            cursor: ew-resize;
+        }
+
+        .u-pic.u-top.u-left, 
+        .u-pic.u-bottom.u-right 
+        {
+            cursor: nwse-resize;
+        }
+
+        .u-pic.u-top.u-right, 
+        .u-pic.u-bottom.u-left 
+        {
+            cursor: nesw-resize;
+        }
+
+        .u-pic.u-top {
+            top:0;
+        }
+        .u-pic.u-bottom {
+            bottom:0;
+        }
+        .u-pic.u-left {
+            left:0;
+        }
+        .u-pic.u-right {
+            right:0;
+        }
+
+        .u-pic.u-mid.u-top,
+        .u-pic.u-mid.u-bottom {
+            left:10%;
+        }
+
+        .u-pic.u-mid.u-left,
+        .u-pic.u-mid.u-right {
+            top:10%;
+        }
+
+
+
+
+        /* content  ${(this.attr('resizable'))?'u-resizable':''}*/
+        .u-popup .u-content-outer {
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: var(--window-bk-color);
+            z-index: 50;
+        }
+    </style>
+</head>
+
+<body class="u-popup ${(this.attr('inline')=='true')?'u-inline':''}" popup-title="A Popup" width="50vw" height="40vh"
+    style="width:${this.attr('width','150px')};height:${this.attr('height','100px')};left:${this.attr('x','50px')};top:${this.attr('y','50px')};">
+
+    <!-- resizing pickups -->
+    <div class="u-pic u-top u-left ${(this.attr('resizable')=='true')?'':'u-disabled'}" onpointerdown="this.pointerDown(event)" onpointerup="this.pointerUp(event)"></div>
+    <div class="u-pic u-top u-right ${(this.attr('resizable')=='true')?'':'u-disabled'}" onpointerdown="this.pointerDown(event)" onpointerup="this.pointerUp(event)"></div>
+    <div class="u-pic u-bottom u-left ${(this.attr('resizable')=='true')?'':'u-disabled'}" onpointerdown="this.pointerDown(event)" onpointerup="this.pointerUp(event)"></div> 
+    <div class="u-pic u-bottom u-right ${(this.attr('resizable')=='true')?'':'u-disabled'}" onpointerdown="this.pointerDown(event)" onpointerup="this.pointerUp(event)"></div>
+
+    <div class="u-pic u-mid u-top ${(this.attr('resizable')=='true')?'':'u-disabled'}" onpointerdown="this.pointerDown(event)" onpointerup="this.pointerUp(event)"></div>
+    <div class="u-pic u-mid u-bottom ${(this.attr('resizable')=='true')?'':'u-disabled'}" onpointerdown="this.pointerDown(event)" onpointerup="this.pointerUp(event)"></div>
+    <div class="u-pic u-mid u-left ${(this.attr('resizable')=='true')?'':'u-disabled'}" onpointerdown="this.pointerDown(event)" onpointerup="this.pointerUp(event)"></div>
+    <div class="u-pic u-mid u-right ${(this.attr('resizable')=='true')?'':'u-disabled'}" onpointerdown="this.pointerDown(event)" onpointerup="this.pointerUp(event)"></div>
+
+    <div class="u-border  ${(this.attr('resizable')=='true')?'u-resizable':''}">
+
+        <!-- title bar-->
+        <div class="u-titlebar">
+            <div class="u-spacer"></div>
+            <div class="u-title u-positioner" onpointerdown="this.pointerDown(event)" onpointerup="this.pointerUp(event)">${this.attr('popup-title','')}</div>
+            <div class="u-close" onclick="this.close(event)">X</div>
+        </div>
+
+        <!-- content -->
+        <div class="u-content-outer" insertion-root="true">
+            <div class="u-content" hole="content"></div>
+        </div>
+    </div>
+</body>
+
+</html>

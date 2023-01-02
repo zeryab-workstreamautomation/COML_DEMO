@@ -1,0 +1,31 @@
+{
+  "name": "coml",
+  "version": "1.0.1",
+  "description": "Component Markup Language",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc --project tsconfig.declaration.json && tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/workstreamautomation/COML.git"
+  },
+  "keywords": [
+    "HTML",
+    "Markup",
+    "Component",
+    "component-markup-language",
+    "javascript",
+    "custom-components"
+  ],
+  "author": "Urooj",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/workstreamautomation/COML/issues"
+  },
+  "homepage": "https://github.com/workstreamautomation/COML#readme",
+  "devDependencies": {
+    "body-parser": "^1.20.0",
+    "express": "^4.18.1"
+  }
+}

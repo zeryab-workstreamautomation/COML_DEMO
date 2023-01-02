@@ -1,0 +1,182 @@
+<html>
+
+<head>
+    <script>
+        /**
+         * 2 panel split control
+         **/
+
+        this.xy={sx:0,sy:0};
+        this.ratio=this.attr('ratio',0.5);
+        this.leftright=(this.attr('split-type','leftright')=='leftright');
+
+        this.minpercent = (one)=>{
+            let szz=this.attr(`min-size-${(one) ? '1':'2'}`);
+            if (!szz)
+                return 0;
+            let num=(szz.length>0) ? Number.parseFloat(szz.replace(/[A-Za-z]/g, "")):0;
+            if (szz.indexOf('%')>=0)
+                return num/100;
+            if (szz.indexOf('rem')>=0)
+                num*=16;
+            return num/((this.leftright) ? this.$('.u-split-container').offsetWidth:this.$('.u-split-container').offsetHeight);
+        }
+
+
+        this.down = (ev)=>{
+            ev.preventDefault();
+            this.xy.sx=ev.clientX;
+            this.xy.sy=ev.clientY;
+            this.$('.u-split-divider').addEventListener('pointermove',this.moved);
+            this.$('.u-split-divider').setPointerCapture(ev.pointerId);
+        }
+
+        this.moved = (ev)=>{
+            let container=this.$('.u-split-container');
+            let rect = container.getBoundingClientRect();
+
+            let deltaPerc=(this.leftright) ? 
+                ((ev.clientX - rect.left)/container.offsetWidth)
+                :((ev.clientY - rect.top)/container.offsetHeight);
+            this.ratio=Math.max(0,Math.min(1,deltaPerc));
+
+
+            this.sizesplits();
+        }
+
+        this.up = (ev)=>{
+            this.$('.u-split-divider').removeEventListener('pointermove',this.moved);
+            this.$('.u-split-divider').releasePointerCapture(ev.pointerId);
+        }  
+        
+        this.sizesplits = ()=> {
+            let min1=this.minpercent(true);
+            let min2=this.minpercent(false);
+            let max1,max2;
+            if (min1 || min2) {
+                if (min1)
+                    max2=1-min1;
+                else if (min2)
+                    max1=1-min2;
+            }
+            this.dispatchEvent('splitchange',{ratio:this.ratio});
+            if (this.leftright) {
+                this.$('.u-split-1','splitchange',(split1)=>{
+                    split1.style.width=`${this.ratio*100}%`;
+                    if (min1)
+                        split1.style.minWidth=`${min1*100}%`;
+                    if (max1)
+                        split1.style.maxWidth=`${max1*100}%`;
+                })
+                this.$('.u-split-2','splitchange',(split2)=>{
+                    split2.style.width=`${(1-this.ratio)*100}%`;
+                    if (min2)
+                        split2.style.minWidth=`${min2*100}%`;
+                    if (max2)
+                        split2.style.maxWidth=`${max2*100}%`;
+                })
+            } else {
+                this.$('.u-split-1','splitchange',(split1)=>{
+                    split1.style.height=`${this.ratio*100}%`;
+                    if (min1)
+                        split1.style.minHeight=`${min1*100}%`;
+                })
+                this.$('.u-split-2','splitchange',(split2)=>{
+                    split2.style.height=`${(1-this.ratio)*100}%`;
+                    if (min2)
+                        split2.style.minHeight=`${min2*100}%`;
+                })
+                        
+            }
+        }
+
+    </script>
+    <style>
+        .u-splits * {
+            --split-divider-size: 0.5rem;
+            --split-line-size: 1px;
+            --split-line-hover-size: 2px;
+            --split-line-colr: lightgray;
+            --split-line-hover-colr: #bce242;
+        }
+
+        .u-splits {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .u-split-outer {
+            height: 100%;
+        }
+
+        .u-split-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .u-split-container.u-split-leftright {
+            flex-direction: row;
+        }
+
+        .u-split-divider {
+            box-sizing: border-box;
+            height: var(--split-divider-size);
+            min-height: var(--split-divider-size);
+            width: 100%;
+            cursor: ns-resize;
+        }
+
+        .u-split-divider.u-split-leftright {
+            width: var(--split-divider-size);
+            min-width: var(--split-divider-size);
+            min-height: unset;
+            height: 100%;
+            cursor: ew-resize;
+        }
+
+        .u-split-divider .u-line {
+            height: var(--split-line-size);
+            width: 100%;
+            background-color: var(--split-line-colr);
+        }
+        .u-split-divider:hover .u-line {
+            background-color: var(--split-line-hover-colr);
+            height: var(--split-line-hover-size);
+        }
+
+
+        .u-split-divider .u-line.u-split-leftright {
+            width: var(--split-line-size);
+            height: 100%;
+        }
+
+        .u-split-divider:hover .u-line.u-split-leftright {
+            background-color: var(--split-line-hover-colr);
+            width: var(--split-line-hover-size);
+        }
+    </style>
+</head>
+
+<body id="split" width="100%" height="50vh" split-type="updown" class="u-splits">
+    <div class="u-split-outer" insertion-root="true">
+        <div class="u-split-container u-split-${this.attr('split-type','leftright')}"
+            style="width:${this.attr('width','500px')};height:${this.attr('height','200px')};">
+            <div class="u-split-1 u-split-${this.attr('split-type','leftright')}" onpostrender="this.sizesplits(event)">
+                <div class="u-split-r1" hole="split1">
+                    This is content 1
+                </div>
+            </div>
+            <div class="u-split-divider u-split-${this.attr('split-type','leftright')}" 
+                onpointerdown="this.down(event)" 
+                onpointerup="this.up(event)">
+                <div class="u-line  u-split-${this.attr('split-type','leftright')}"></div>
+            </div>
+            <div class="u-split-2 u-split-${this.attr('split-type','leftright')}"  onpostrender="this.sizesplits(event)">
+                <div class="u-split-r2" hole="split2">
+                    This is content 2
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

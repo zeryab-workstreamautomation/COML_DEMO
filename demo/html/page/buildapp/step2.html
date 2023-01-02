@@ -1,0 +1,54 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+  
+<co-markdown>
+The frame is a COML page that defined the user interface area. It will set up navigation areas such as toolbars or menus. It will define application wide css and function.
+
+Here is a very basic frame that does nothing.
+</co-markdown>
+
+<co-code id="step2a" src="creatures/html/page/frame-1.html" class="u-code-10">
+
+</co-code>
+
+<div class="u-coderunner" onclick="runcode(this,'step2a','step2arunner')">Run Code</div>
+
+<pages id="step2arunner" class="u-codetarget" style="height: 5rem;"></pages>
+
+<co-markdown>
+
+## Adding a toolbar
+
+We will define a simple toolbar that takes up a fixed area at the top. Instead of hard-coding values we will use
+[CSS Variables](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties) to define sizes (and colours).
+ 
+</co-markdown>
+
+<co-code id="step2b" src="creatures/html/page/frame-2.html" class="u-code-20">
+
+</co-code>
+
+<div class="u-coderunner" onclick="runcode(this,'step2b','step2brunner')">Run Code</div>
+
+<pages id="step2brunner" class="u-codetarget" style="height: 5rem;"></pages>
+
+
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

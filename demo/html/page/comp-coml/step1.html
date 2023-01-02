@@ -1,0 +1,73 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+  
+<co-markdown>
+
+Any COML document can be loaded through the [this.import() method](@coml-fns/import.html) and then used as an Element inside the calling document.
+
+However, such an imported element can only show the imported document's own contents.
+
+A COML Template is a COML document that marks one or more Elements inside it as `holes`. Now the calling document can insert content into these holes by embedding its own content marked with `plughole`s.
+
+The COML Template also declares one element as the `insertion-root`. All `hole` Elements must be children of the insertion-root element. 
+
+When COML inserts the Template into the calling document, it will use the insertion-root from the template to replace the Element that uses the template's tag.
+Therefore any content outside the insertion-root element will be ignored.
+
+Here is a COML Template
+</co-markdown>
+
+<co-code id="cotemplate1" class="u-code-10">
+  <div insertion-root="true" class="u-temp1">
+    <div>I am a simple template.</div>
+    <div hole="fillme">
+      This content will be replaced.
+    </div>
+  </div>
+</co-code>
+<co-markdown>
+
+Below is a page that imports it and replaces the hole `fillme`
+
+</co-markdown>
+
+<co-code id="calltemp1" class="u-code-15">
+  <script>
+    this.import({name:'cotemplate1',type:'page'},'co-simple');
+  </script>
+
+  <div>Outsde of template</div>
+
+  <co-simple>
+    <div plughole="fillme">From outside of template too!</div>
+  </co-simple>
+
+</co-code>
+
+<div class="u-coderunner" onclick="runcode(this,'calltemp1','calltemp1runner')">Run Code</div>
+
+<pages id="calltemp1runner" class="u-codetarget" style="max-height: fit-content;"></pages>
+
+<co-markdown>
+
+</co-markdown>
+
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

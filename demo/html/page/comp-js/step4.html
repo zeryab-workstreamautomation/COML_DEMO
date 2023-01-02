@@ -1,0 +1,112 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoError');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+  
+<co-markdown>
+
+The weather service sends us temperature readings at hourly intervals.
+
+We will display up to 20 hourly temperature readings in a nested element `&lt;co-temperature&gt;` inside the `&lt;co-weather&gt;`.
+
+The `&lt;co-temperature&gt;` will be converted into a repeating `div` tag containing the temperature value.
+
+Below is the updated `&lt;co-weather&gt;` component. Compile the code below then run it.
+
+</co-markdown>
+
+<co-code id="step4a" src="comp-js/step4.js" mode="javascript" class="u-code-30"></co-code>
+
+<div class="u-coderunner" onclick="executejs(this,'step4a','step4aerror')">Compile</div>
+
+<co-error id="step4aerror"></co-error>
+
+
+<co-markdown>
+
+Here is a page that uses the component. A div to display each row, with a count cell and the `&lt;co-temperature&gt;`  element has been added.
+   
+ </co-markdown>
+   
+   
+ <co-code id="sstep4b" class="u-code-10">
+   <script>
+     this.import('WeatherFactory');
+   </script>
+ 
+  <co-weather lat="52" long="13" style="display:flex;flex-direction:column;">
+    <div style="display:flex;flex-direction:row;${(this.iter('co-weather')%2)?'':'background-color:#e0e9e3;'}">
+      <div style="width:5rem;">#${this.iter('co-weather')+1}</div>
+      <co-temperature></co-temperature>
+    </div>
+  </co-weather>
+ 
+ 
+ </co-code>
+ 
+ <div class="u-coderunner" onclick="runcode(this,'sstep4b','sstep4brunner')">Run Code</div>
+ 
+ <pages id="sstep4brunner" class="u-codetarget" style="max-height: fit-content;"></pages>
+
+<co-markdown>
+
+## Nested components
+
+The nested element `&lt;co-temperature&gt;` is handled by the new Javascript class `Temperature` added in the code.
+
+The `WeatherFactory` class has been modified so that it creates an instance of the appropriate class when called with the `tag` of the element to create.
+
+## Loops - generating content multiple times
+
+All content inside the `&lt;co-weather&gt;` is repeated for each temperature in the `temperature_2m` array.
+
+To achieve this, the `&lt;co-weather&gt;` iterates over the temperature array and calls the [rm.renderChildren()](@renderchildren.html) for each iteration.
+
+`renderChildren` will repeat the content of the `&lt;co-temperature&gt;` tag as many times as it is called. It is supplied the iteration count.
+
+## Passing temperature to each iterated `&lt;co-temperature&gt`; 
+
+For each iteration, the code sets the last field of `renderChildren()` to an object that contains a temperature against the name of the component that can retrieve it using the `params()` call: 
+
+</co-markdown>
+
+<co-code class="u-code-5" mode="javascript">
+  {
+    'co-temperature': { temp: this.temperature_2m[i] }
+  } 
+</co-code>
+
+<co-markdown>
+The `Temperature` class can fetch this object using the [params()](@coml-fns/params.html) function: `let temp = this.params().temp;`. 
+
+`params()` will retrieve any parameter block set for a child by name - in this case set by `Weather` for the child whose tag matches `co-temperature`.
+
+There are 20 `&lt;co-temperature&gt;` children of weather, but each one's call to `params()` only retrieves the block that was set for its iteration.
+
+## The iteration counter
+
+COML lets you access the iteration inside a child subtree through the [iter(parentTag)](@coml-fns/iter.html).
+
+This is used in the html code to change the background colour of each row, depending on if its even or odd: `${(this.iter('co-weather')%2)?'':'background-color:#e0e9e3;'}`
+
+It is also used to show the row number. As the `iter()` function is zero-based, we add 1 to generate the row number.
+
+</co-markdown>
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

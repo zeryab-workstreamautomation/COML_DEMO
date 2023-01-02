@@ -1,0 +1,64 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+  
+<co-markdown>
+## Importing a Pages area
+
+The [pages](@pages.html) component defines an area where other COML pages can be loaded.
+
+To use a COML element we must first import it. We will also add css rules so the pages occupy all
+space below the toolbar.
+
+</co-markdown>
+
+<co-code id="step3a" src="creatures/html/page/frame-3.html" class="u-code-20">
+
+</co-code>
+
+<div class="u-coderunner" onclick="runcode(this,'step3a','step3arunner')">Run Code</div>
+
+<pages id="step3arunner" class="u-codetarget" style="height: 20rem;"></pages>
+
+<co-markdown>
+
+## Adding Navigation
+
+We will use eventhandlers on `div`s to control what is shown in the pages.
+
+We have now added code to our frame through the `script` tag. Notice that unlike normal html, we define variables on a `this` object.
+
+The [This](@coml-fns/this.html) object represents an instance of the COML page (in this case the Frame). 
+This is useful when the same html page is reused many times - each reuse has its own this object.
+
+In COML eventhandlers (such as 'onclick') can refer to the this object, as shown.
+
+</co-markdown>
+
+<co-code id="step3b" src="creatures/html/page/frame-4.html" class="u-code-20">
+
+</co-code>
+
+<div class="u-coderunner" onclick="runcode(this,'step3b','step3brunner')">Run Code</div>
+
+<pages id="step3brunner" class="u-codetarget" style="height: 20rem;"></pages>
+
+
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

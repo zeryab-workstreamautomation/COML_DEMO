@@ -1,0 +1,96 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoError');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+  
+<co-markdown>
+
+The Javascript code editor directly creates the Javascript classes needed to run the samples. So you must press the 'Compile' button on each page before progressing to the next.
+
+The `expose(...classes)` code is needed only inside this demo, it is used to move the new class into the global scope.
+
+If not, some of the required code will be missing and the dependent part of the tutorial will not work properly.
+
+## Hello, World!
+
+Here is a simple Javascript component:
+
+</co-markdown>
+
+<co-code id="step1a" src="comp-js/step1.js" mode="javascript" class="u-code-20"></co-code>
+
+<div class="u-coderunner" onclick="executejs(this,'step1a','step1aerror')">Compile</div>
+
+<co-error id="step1aerror"></co-error>
+
+
+<co-markdown>
+
+Here is a simple page that uses the component.
+   
+ </co-markdown>
+   
+   
+ <co-code id="sstep1b" class="u-code-small">
+   <script>
+     this.import('HelloFactory');
+   </script>
+ 
+   <co-hello></co-hello>
+ 
+ 
+ </co-code>
+ 
+ <div class="u-coderunner" onclick="runcode(this,'sstep1b','sstep1brunner')">Run Code</div>
+ 
+ <pages id="sstep1brunner" class="u-codetarget" style="max-height: fit-content;"></pages>
+
+<co-markdown>
+
+The component for the `co-hello` is implementd by the Hello class. It extends [BaseCoElement](@basecoelement.html).
+
+The `&lt;co-hello&gt;` tag is rendered by the `onRender(rm)` method. This method is invoked by COML whenever the `&lt;co-hello&gt;` tag needs to be converted to html.
+
+The `rm` parameter is a [Render](@render.html) object, which creates standard html elements to display the component.
+
+The code creates a simple `&lt;div class="u-hello" draggable="true"&gt;Hello, World2!&lt;/div&gt;` using the Render object as shown.
+
+## Factory
+
+The class `HelloFactory` is used by COML to create instances of `Hello`. 
+
+It must be the default export from the module where you declare your component.
+
+In this demo, you must use the `expose(classname)` function, in `Typescript` use the `export default` keywords on the class.
+
+It must implement the two functions below. 
+
+### `registerFactory(cvt)`
+
+This tells COML which component to create when it encounters a `&lt;co-hello&gt;` tag. It can register multiple components by calling the `cvt.registerFactory()` method.
+
+### `makeComponent(tn,cvt)`
+
+This makes (instantiates) the element. If your factory handles multiple components, then use `tn.snode.tagName` to discover which one to create.
+
+
+
+</co-markdown>
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

@@ -1,0 +1,53 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+  
+<co-markdown>
+A tabbed container comprises a content area and a selector (Tabs) area. The Tabs area contains buttons that select content to be shown.
+
+Using the [Pages](@pages.html) control, we can define a simple container like this:
+
+</co-markdown>
+
+<co-code id="tabs2" src="comp-coml/tabs2.html" class="u-code-25">
+
+</co-code>
+
+<div class="u-coderunner" onclick="runcode(this,'tabs2','tabs2runner')">Run Code</div>
+
+<pages id="tabs2runner" class="u-codetarget" style="max-height: fit-content;"></pages>
+
+
+<co-markdown>
+
+The COML code above defines a tab btn strip `.u-tabs-strip` with a single div. This defines the selector button. It has a custom attribute `asset2load` which defines the COML asset that should be loaded when selected.
+
+The selector button calls `this.switchTab()` on click.
+
+The method `this.switchTab()` reads the `asset2load` attribute from the clicked button, finds the `pages` Component using using [the get method](@coml-fns/get.html), and uses its `show()` function to display the page.
+
+It also sets the `u-btn-sel` class on the tab that was clicked, to mark is as selected.
+
+Note that this is a normal COML document. You can test it on its own - this makes it easy to test and debug a template during development.
+
+
+</co-markdown>
+
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

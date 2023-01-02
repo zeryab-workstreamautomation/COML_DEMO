@@ -1,0 +1,55 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+  
+<co-markdown>
+
+We will test the template by [importing](@coml-fns/import.html) the tabs template loading our own pages into it.
+
+
+</co-markdown>
+
+<co-code id="usetabs3" class="u-code-15">
+<script>
+    this.import({name:'comp-coml/tabs2.html',type:'page'},'co-simpletabs');    
+</script>
+
+<div>
+    <co-simpletabs>
+      <div>
+        <div plughole="tab-title" asset2load="test2.html">My First Tab</div>
+      </div>
+    </co-simpletabs>
+</div>
+
+</co-code>
+
+<div class="u-coderunner" onclick="runcode(this,'usetabs3','usetabs3runner')">Run Code</div>
+
+<pages id="usetabs3runner" class="u-codetarget" style="max-height: fit-content;"></pages>
+
+
+<co-markdown>  
+
+ The original content of the tab has been replaced with our 'plughole' div, which replaces the `asset2load` and the title text of the button. 
+
+</co-markdown>
+
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

@@ -1,0 +1,163 @@
+<html>
+
+<head>
+<script>
+    console.log(`------------------Here-------------------`);
+    this.import({name:'Imported.html',type:'page'},'co-imported');
+    this.import('coml/bridge/ui5/UI5CoElement');
+
+    this.counter=0;
+
+    this.clicked = (e)=>{
+        this.counter++;
+        console.log('clicked');
+        //this.document.querySelector('co-imported').remove();
+        //this.rebuild();
+        //this.invalidate('co-imported.outer-c');
+
+        this.invalidate('.hello-div1');
+    }
+
+    this.testGetUI5 = (e)=>{
+        let step=this.get('.j-zoom-input').getControl();
+
+        console.log(step.getValue());
+    }
+
+
+
+    /*this.onAfterRender(()=>{
+        let combo=this.get('#combo1').getControl();
+
+        combo.addItem(new sap.ui.core.Item(undefined,{key:'1',text:'Lion'}));
+        combo.addItem(new sap.ui.core.Item(undefined,{key:'2',text:'Tiger'}));
+        combo.addItem(new sap.ui.core.Item(undefined,{key:'3',text:'Elephant'}));
+        combo.addItem(new sap.ui.core.Item(undefined,{key:'4',text:'Giraffe'}));
+
+    })*/
+    this.$('#combo1','fillcombo',(e)=>{
+        console.debug('here');
+        let combo=this.get(e).getControl();
+
+        combo.addItem(new sap.ui.core.Item(undefined,{key:'1',text:'Lion'}));
+        combo.addItem(new sap.ui.core.Item(undefined,{key:'2',text:'Tiger'}));
+        combo.addItem(new sap.ui.core.Item(undefined,{key:'3',text:'Elephant'}));
+        combo.addItem(new sap.ui.core.Item(undefined,{key:'4',text:'Giraffe'}));
+    })
+</script>
+<style>
+    .co-inner {
+        background-color: cornflowerblue;
+    }
+</style>    
+</head>
+
+<body class="hello-base">
+    <div ui5class="sap.m.Label" class="hello-div1" Xid="ui5area">
+        
+        <div class="hello-div2" onclick="this.clicked(event)">
+            Click Me! ${this.counter}
+        </div>
+        <div class="hello-div2" onclick="this.testGetUI5(event)">
+            Test GetUI5 By Class
+        </div>
+        Hello COML! ${this.counter}
+
+        <ui5 class="j-zoom-input" name="zoom_text" ui5class="sap.m.StepInput">
+            <script>
+                this.settings({
+                    max: 500,
+                    min: 1,
+                    name: "zoom_text",
+                    step: 1,
+                    textAlign: sap.ui.core.TextAlign.Center,
+                    value: 100,
+                    //change: this.setZoomScale.bind(this)
+                })
+            </script>
+        </ui5>
+        
+        <!--
+        <co-imported class="outer-c">Some Text 2</co-imported>
+        <co-imported class="outer-c2">Some Text 3</co-imported>
+        -->
+        <ui5 class="input" ui5class="sap.m.Input">
+            <script>
+                this.settings({
+                    placeholder:'Type here '+Math.random(),
+                    showClearIcon:true
+                })
+            </script>
+        </ui5>
+        
+        <ui5 id="combo1" ui5class="sap.m.MultiComboBox">
+        </ui5>
+        <ui5 ui5class="sap.m.CheckBox"></ui5>
+        <ui5 ui5class="sap.m.Button">
+            <script>
+                this.settings({
+                    text:'Button '+Math.random(),
+                })
+            </script>
+        </ui5>
+
+        <ui5 ui5class="sap.m.Image">
+            <script>
+                this.settings({
+                    src: 'spark.png',
+                    height:'40px',
+                })
+            </script>
+        </ui5>
+
+        <ui5 ui5class="sap.ui.core.HTML">
+            <script>
+                this.settings({
+                    content:  `
+            <div class="u-home-outer">
+                <div class="u-home-row u-home-title">COML</div>
+                <div class="u-home-row u-home-version">0.1</div>
+                <div class="u-home-row u-home-copy">001</div>
+            </div>
+            `
+                   
+                })
+            </script>
+        </ui5>
+
+        <ui5 ui5class="sap.m.Label">
+            <script>
+                this.settings({
+                    text: "This is a label",
+                })
+            </script>
+        </ui5>
+
+        <ui5 ui5class="sap.m.Table">
+            <script>
+                // create columns
+                let columns = [
+                    new sap.m.Column (undefined,{
+                        
+                        header : new sap.m.Label({
+                            text : "Title"
+                        }) // Label Control
+                    }), // column Control
+                    new sap.m.Column(undefined,{
+                        width:'5rem',
+                        header : new sap.m.Label({
+                            text : "Action"
+                        }) // Label Control
+                    }), // column control
+                ]; 
+
+                this.settings({
+                    columns:columns,
+                })
+            </script>
+        </ui5>
+        
+    </div>
+</body>
+
+</html>

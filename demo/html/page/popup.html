@@ -1,0 +1,52 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/popup.html',type:'page'},'co-popup');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+<co-markdown>
+A `co-popup` simply shows its content in a popup.
+
+## Fixed popup on a page
+
+Just use the `co-popup` element as shown.
+</co-markdown>
+
+
+<co-code id="popup1" class="u-code-medium">
+  <script>
+    this.import({ name: 'element/popup.html', type: 'page' }, 'co-popup');
+  </script>
+
+  <co-popup popup-title="Hello, Popup!" resizable="true" width="50vw" height="40vh" x="40%" y="10%">
+
+    <div plughole="content">
+      Hello World!
+    </div>
+  </co-popup>
+
+
+</co-code>
+
+<div class="u-coderunner" onclick="runcode(this,'popup1','popup1runner')">Run Code</div>
+
+<pages id="popup1runner" class="u-codetarget" style="max-height: fit-content;"></pages>
+
+<co-markdown>
+
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

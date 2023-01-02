@@ -1,0 +1,57 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+<co-markdown>
+## `invalidate(selectorOrNode: Node | string | TargetNode,forget?:boolean);` 
+
+Invalidate a Component, causing it to be repainted. The repaint is asyncronous and does not happen during the invalidate invocation.
+
+`@param selectorOrNode` The source or target node (element) , querySelector or TargetNode to repaint
+
+`@param forget` Optional, If true, the CoElement is asked to `forget()` state.
+
+## Use
+
+`invalidate` is used whenever a component needs to be redrawn to the target document. It is most often called when the state of a component changes.
+
+Calling `invalidate` on an object will also repaint all its descendents.
+
+`repaint` refers to the process of generating standard html Elements in the browser's document that display the Component. A Component has a `onRender(rm:Render)` method that is called during repainting.
+The `onRender()` uses [methods on the Render object](@render.html) to generate elements which replace any previously generated elements.
+
+## Examples
+
+### Promise resolution
+
+During asynchronous changes a component may repaint itself when the asynchronous operation completes and the data from it needed for draing the component's html is available. See [Handling parameter changes](@comp-js/step5.html).
+
+### Forgetting state
+
+Components may cache state that is expensive to build. Such cached state will normally be reused after an invalidation.
+
+When state needs to be forgotten a Component can provide a `forget()` method that is called when the caller specifies `true` for the forget parameter.
+
+The component should rebuild cached state from its attributes or parameters, and reissue an invalidate() on itself when the state is rebuilt (with forget set to false to stop an infinite loop). 
+
+See [Handling parameter changes](@comp-js/step5.html) for an example of implementing `forget()`.
+
+</co-markdown>
+
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

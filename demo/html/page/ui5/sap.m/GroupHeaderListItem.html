@@ -1,0 +1,48 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+<co-markdown>
+## Settings
+
+See [https://sapui5.hana.ondemand.com/#/api/sap.m.GroupHeaderListItem%23controlProperties](https://sapui5.hana.ondemand.com/#/api/sap.m.GroupHeaderListItem%23controlProperties)
+
+</co-markdown>
+
+
+<co-code id="sapminput2" class="u-code-medium">
+    <script>
+        this.import('coml/bridge/ui5/UI5CoElement');
+    </script>
+
+    <ui5 class="input" ui5class="sap.m.GroupHeaderListItem">
+        <script>
+            this.settings({
+            })
+        </script>
+    </ui5>
+
+</co-code>
+  
+<div class="u-coderunner" onclick="runcode(this,'sapminput2','sapminput2runner')">Run Code</div>
+
+<pages id="sapminput2runner" class="u-codetarget" style="max-height: fit-content;"></pages>
+
+
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

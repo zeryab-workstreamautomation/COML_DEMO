@@ -1,0 +1,61 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/split.html',type:'page'},'co-split');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+<co-markdown>
+A `co-split` shows two panels with a vertical or horizontal divider.
+
+## Left-right split 
+
+Here is a left / right split:
+
+</co-markdown>
+
+
+<co-code id="split1" class="u-code-20">
+  <script>
+    this.import({ name: 'element/split.html', type: 'page' }, 'co-split');
+  </script>
+
+  <co-split width="100%" height="10rem" min-size-1="5rem" ratio="0.25" split-type="leftright">
+
+    <div plughole="split1"> <!-- an element with plughole set to 'split1' get shown in the 1st split area-->
+        Panel 1
+    </div>
+
+    <div plughole="split2"> <!-- an element with plughole set to 'split2' get shown in the 2nd split area-->
+        Panel 2
+    </div>
+  </co-split>
+
+
+</co-code>
+
+<div class="u-coderunner" onclick="runcode(this,'split1','split1runner')">Run Code</div>
+
+<pages id="split1runner" class="u-codetarget" style="height: 10rem;"></pages>
+
+<co-markdown>
+## Up-down split 
+
+In the above code change the `split-type` attribute to 'updown' and then press `Run Code`
+</co-markdown>
+
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

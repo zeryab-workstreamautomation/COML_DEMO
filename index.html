@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+
+    <title>COML Samples</title>
+
+    <link rel="icon" href="/demo/html/image/conwl.png">
+
+    <!-- jquery. This is ONLY used in the simple JQueryAjax implementation, and not by COML  -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+
+    <!--codemirror and friends -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js'></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/xml/xml.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/css/css.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/htmlmixed/htmlmixed.js"></script>
+
+    <!-- js beautify for code mirror -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.7/beautify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.7/beautify-css.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.7/beautify-html.js"></script>
+
+    <!-- showdown for markdown to html -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+    
+
+    <!-- chartjs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> 
+
+    <!--requirejs so we can load COML AMDs-->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js'></script>
+
+    <script src='/js/coml/coml.js'></script>
+
+    <!-- Open UI5 -->
+    <script id='sap-ui-bootstrap'  Xsrc='/resources/sap-ui-core-dbg.js' src='https://openui5.hana.ondemand.com/resources/sap-ui-core.js'
+        data-sap-ui-theme='sap_belize'
+        data-sap-ui-libs='sap.m,sap.ui.core,sap.ui.layout,sap.ui.table,sap.f' 
+        data-sap-ui-compatVersion='edge'
+        data-sap-ui-preload='sync' 
+        data-sap-ui-logLevel="error">
+    </script>  <!-- -->
+    
+
+    <script>
+        require(['demo/DemoApp'],
+            (_module) => {
+                let demoApp = new _module.default(false); // true=dontUseUI5
+                //demoApp.attachTo("lift-off", 'element/UI5Controls.html');
+                demoApp.attachTo("lift-off", 'demoframe.html');
+            });
+    </script>
+</head>
+
+<body class="coml-body">
+    <div id='lift-off'>
+        Please wait while COML loads
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+/* coml demo css */
+
+
+/* Animation - page to and from effects */
+@keyframes right2left {
+  from {
+    transform: translate3d(10rem, 0, 0);
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+.co-animation-to {
+  animation-duration: .4s;
+  animation-name: right2left;
+}
+
+@keyframes left2right {
+  from {
+    transform: translate3d(-10rem, 0, 0);
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+.co-animation-back {
+  animation-duration: .4s;
+  animation-name: left2right;
+}
+
+@keyframes bottom2top {
+  from {
+    transform: translate3d(0, 10rem, 0);
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+.co-animation-up {
+  animation-duration: .4s;
+  animation-name: bottom2top;
+}
+
+@keyframes top2bottom {
+  from {
+    transform: translate3d(0, -10rem, 0);
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+.co-animation-down {
+  animation-duration: .4s;
+  animation-name: top2bottom;
+}
+

@@ -1,0 +1,80 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+  
+<co-markdown>
+
+While template attributes such as `tbar-height` were useful in setting up the configuration of a template, we need a way to set more complex settings, usually to change the behaviour of the template.
+
+We will set the title of the toolbar to show the name of the page.
+
+</co-markdown>
+
+<co-code id="tbar_html" src="creatures/html/page/tbar-7.html" class="u-code-15">
+
+</co-code>
+
+<div class="u-coderunner" onclick="runcode(this,'tbar_html','step5arunner')">Run Code</div>
+
+<pages id="step5arunner" class="u-codetarget" style="height: 4rem;"></pages>
+
+<co-markdown>
+
+## Calling a template's functions
+
+### Creating `setTitle()` 
+
+In the toolbar template, we have defined a new `setTitle()` method that sets a title variable and repaints the template. This causes the `${this.title}` to evaluate to the new
+title to be shown.
+
+### Calling the `setTitle()`
+
+To set the title, the frame just uses the [get()](@coml-fns/get.html) function.
+
+`get(selector,callback)` takes a selector or node, and when found calls the supplied callback, passing it the `Component` of the template. 
+
+So to set the title we use: `this.get('co-creature-tbar',(co)=>{  co.setTitle('Creatures');  })`
+
+Note that COML will call the callback immediately if the Component has been rendered. If not the callback is stored in a queue, and will be called when COML renders the component. 
+
+In either case, the callback is called only once.
+
+Run the code below to see the title being set.
+
+Use a `debugger` line before and inside the `get()` to see when the callback gets called.
+
+
+
+</co-markdown>
+
+<co-code id="step5b" src="creatures/html/page/frame-7.html" class="u-code-20">
+
+</co-code>
+
+<div class="u-coderunner" onclick="runcode(this,'step5b','step5brunner')">Run Code</div>
+
+<pages id="step5brunner" class="u-codetarget" style="height: 20rem;"></pages>
+
+<co-markdown>
+
+
+</co-markdown>
+
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

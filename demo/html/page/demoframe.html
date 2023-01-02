@@ -1,0 +1,326 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="{'name':'demo.css','type':'css'}">
+
+    <style>
+        html {
+            overflow: hidden;
+        }
+
+        /* scrolbars on webkt */
+        html ::-webkit-scrollbar {
+            background-color: #fff;
+        }
+
+        html ::-webkit-scrollbar-corner {
+            background-color: #fff;
+        }
+
+        html ::-webkit-scrollbar-thumb {
+            border-radius: .75rem;
+            border: .125rem solid #fff;
+        }
+
+        html.sap-desktop:not(.sapUiNativeScrollbars) ::-webkit-scrollbar-thumb,
+        html ::-webkit-scrollbar-thumb {
+            background-color: #99b28f;
+        }
+
+        .u-coml-demo * {
+            --tbar-size: 3.6rem;
+            --toc-min-size: 15rem;
+
+            --tbar-bk-color: #99b28f;
+        }
+
+        .u-coml-demo .u-frame {
+            font-family: Arial, Helvetica, sans-serif;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* toolbars */
+        .u-coml-demo .u-tbar {
+            height: var(--tbar-size);
+            width: 100%;
+            background-color: var(--tbar-bk-color);
+            color: white;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+
+        .u-coml-demo .u-main-split {
+            height: calc(100vh - var(--tbar-size));
+        }
+
+        .u-coml-demo .u-ws-page-container {
+            height: 100%;
+            overflow: auto;
+            padding-right: 1.5rem;
+            padding-left: 1.0rem;
+        }
+
+        .u-coml-demo .u-toc-scroll {
+            height: 100%;
+            width: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+
+
+        body {
+            margin: 0;
+        }
+
+        /* code mirror sizes */
+        /*
+        .u-co-code  {
+            margin-left: 0.5rem;
+        }*/
+        .u-code-small .CodeMirror,
+        .u-code-5 .CodeMirror {
+            height: 5rem;
+        }
+
+        .u-code-medium .CodeMirror,
+        .u-code-10 .CodeMirror {
+            height: 10rem;
+        }
+
+        .u-code-15 .CodeMirror {
+            height: 15rem;
+        }
+
+        .u-code-20 .CodeMirror {
+            height: 20rem;
+        }
+
+        .u-code-25 .CodeMirror {
+            height: 25rem;
+        }
+
+        .u-code-large .CodeMirror,
+        .u-code-big .CodeMirror,
+        .u-code-30 .CodeMirror {
+            height: 30rem;
+        }
+
+        /* markdown */
+        .u-markdown code {
+            background-color: #f0f0f0;
+            padding: 0.1rem;
+            /* border-radius: 5px; */
+            padding-left: 0.25rem;
+            padding-right: 0.25rem;
+            font-size: 1rem;
+            /*font-weight: bold;*/
+        }
+
+        /* runcode buttons */
+        .u-coderunner {
+            display: block;
+            margin: 0.5rem;
+            margin-left: 0;
+            width: fit-content;
+            background-color: #99b28f;
+            color: white;
+            padding: 0.5rem;
+            font-weight: bold;
+            border-radius: 0.25rem;
+            cursor: pointer;
+        }
+
+        .u-co-error .u-code-error {
+            line-height: 2rem;
+            height: 2rem;
+            padding-left: 0.5rem;
+            font-weight: bold;
+        }
+
+        .u-co-error .u-code-error.u-fade {
+            font-weight: normal;
+        }
+
+        .u-code-error.compile {
+            background-color: hsl(15deg 100% 72%);
+        }
+
+        .u-code-error.run {
+            background-color: rgb(255, 207, 112);
+        }
+
+        .u-code-error.success {
+            background-color: rgb(224 233 227);
+        }        
+
+
+        /* the page in which the code runs */
+        .u-codetarget {
+            max-height: 20rem;
+            overflow: auto;
+            background-color: hsl(103deg 30% 96%);
+            margin: 0.5rem;
+            margin-left: 0;
+            margin-right: 0;
+            padding: 0.5rem;
+        }
+
+        .u-page-spacer {
+            min-height: 5rem;
+        }
+
+        .u-coml-demo a {
+            color: black;
+            background-color: #e0e9e3;
+            text-decoration: none;
+            padding-left: 0.4rem;
+            padding-right: 0.4rem;
+            cursor: pointer;
+            border-radius: 0.25rem;
+            font-style: italic;
+        }
+    </style>
+
+    <script>
+        this.import('coml/element/Pages');
+        this.import({
+            name: 'element/split.html',
+            type: 'page'
+        }, 'co-split');
+        this.import({
+            name: 'topbar.html',
+            type: 'page'
+        }, 'co-topbar');
+        this.import({
+            name: 'toc.html',
+            type: 'page'
+        }, 'co-toc');
+
+        showPage = (page, anim) => {
+            this.get('co-toc',co=>co.setLastPage(page));
+            this.get('pages',co=>co.show(page, (anim) ? anim : 'to'));
+        }
+
+        showPage('whatiscoml.html');
+
+
+        this.showPage = (e) => {
+            showPage(e.detail.page, 'to');
+        }
+
+        /**
+         * global method to run COML code.
+         * 
+         * @param that The 'this' of the caller
+         * @param codeid The id of the <co-code> element containig the code to run.
+         * @param runinid The id of the <psge> block in which to run the code.
+         */
+        runcode = (that, codeid, runinid) => {
+            let assetId = that.get(`#${codeid}`).getAssetId();
+            if (assetId) {
+                if (runinid) {
+                    let page = that.get('#' + runinid);
+                    if (page) {
+                        page.show(assetId, undefined, true);
+                    }
+                }
+            }
+            //console.log(assetId);
+        }
+
+        /**
+         * global method to execute javascript in a code editor.
+         * 
+         * @param that The 'this' of the caller
+         * @param codeid The id of the <co-code> element containig the code to run.
+         * @param errorid The id of the <co-error> element to show messages in.
+         */
+        executejs = (that, codeid,errorid) => {
+            let cocode=that.get(`#${codeid}`);
+            let coerror=that.get(`#${errorid}`);
+            let code = cocode.getCodeMirror().getValue();
+            if (code) {
+                coerror.setMessage();
+                console.log('exeuting js code ' + codeid);
+                let f;
+                try {
+                    f = new Function(code);
+                } catch (error) {
+                    console.error(error);
+                    coerror.setMessage(error,'compile');
+                }
+
+                if (f) {
+                    try {
+                        f();
+                        coerror.setMessage('Success','success');
+                    } catch (error) {
+                        console.error(error);
+                        coerror.setMessage(error,'run');
+                    }
+
+
+                }
+            }
+        }
+
+        /**
+         * Global method to return the current,next or previous page in the TOC
+         * 
+         * @param which 'next','prev' or anything else for current
+         * @return An object like {page:'pageid',description:'The text in TOC'}
+         **/
+        getTOCpage = (which) => {
+            return this.get('co-toc').getPage(which);
+        }
+
+
+        /**
+         * intercept clicks and if its an <a> element, check if the href starts with
+         * @. If so, its the name of a page within this App.
+         * 
+         * This lets users easily embed page links using the markdown [Some page](@for.html) 
+         * 
+         **/
+        document.addEventListener(`click`, e => {
+            const origin = e.target.closest(`a`);
+            if (origin) {
+                let href = origin.getAttribute('href');
+                if (href && href.indexOf('@') == 0) {
+                    e.preventDefault();
+                    showPage(href.substring(1), 'to');
+                } else {
+                    origin.setAttribute('target',"_blank");
+                }
+            }
+        });
+
+
+
+    </script>
+</head>
+
+<body id="code" class="u-coml-demo">
+    <div class="u-frame">
+        <co-topbar onclick="this.invalidate('co-split.u-main-split')">
+        </co-topbar>
+        <co-split class="u-main-split" width="100%" height="100%" min-size-1="15rem" ratio="0.25"
+            split-type="leftright">
+
+            <div class="u-toc-scroll" plughole="split1">
+                <co-toc co-onpageselected="this.showPage(event)">
+                </co-toc>
+            </div>
+
+
+            <pages plughole="split2">
+            </pages>
+        </co-split>
+    </div>
+</body>
+
+</html>

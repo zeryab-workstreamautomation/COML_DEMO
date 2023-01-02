@@ -1,0 +1,55 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/popup.html',type:'page'},'co-popup');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+    </script>
+</head>
+
+<body>
+<co-nav></co-nav>
+<co-markdown>
+Tags such as `co-popup` or `for` are components. 
+
+A COML component can be written in Javascript or in COML itself. 
+
+In the `for` example the component is written in Javascript (Or Typescript). Such components provide a lower level of functionality that is easier to code in Javascript.
+
+The `co-popup` component is written in COML. It is a COML Template that just combines ordinary html and other COML components (including other COML Templates) to provide some new functionality.
+
+All COML pages are automatically COML Templates. This means any page can be imported and used as a component inside another page.
+
+By assembling components and templates in this fashion, complex applications can be built in a maintainable and extensible way.
+
+## Importing components
+
+To use a component, use the [import](@coml-fns/import.html) function:
+
+</co-markdown> 
+
+<co-code mode="javascript" class="u-code-small">
+   this.import('coml/element/For'); // a component written in Javascript.    
+   this.import({name='introduction.html',type='page'},'co-intro'); // a component written in COML (a COML Template). You can use is as <co-intro></co-intro>    
+</co-code>
+
+<co-markdown>
+
+## COML Templates
+
+The following is an example of a component template  - The  `popup` template:
+
+</co-markdown> 
+
+<co-code src="element/popup.html" class="u-code-big">
+</co-code>
+
+<co-nav show-title="false"></co-nav>
+<div class="u-page-spacer"></div>
+
+</body>
+
+</html>

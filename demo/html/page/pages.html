@@ -1,0 +1,60 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/popup.html',type:'page'},'co-popup');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+<co-markdown>
+A `pages` element is a fixed area where you can load other COML pages. The pages can be animated when they appear.
+
+## Loading a page
+
+Use the `show()` function on the pages component to load a page:
+</co-markdown>
+
+
+<co-code id="pages1" class="u-code-medium">
+    <script>
+        this.import('coml/element/Pages');
+    </script>
+
+    <!-- Declare a button that cycles in pages -->
+    <div style="display:flex;flex-direction: row;">
+      <div class="u-coderunner" onclick="this.get('pages#mypage').show('test.html','to')">To...</div>
+      <div class="u-coderunner" onclick="this.get('pages#mypage').show('test2.html','back')">Back...</div>
+    </div>
+
+    <pages id="mypage" style="width:40rem;height:20rem;background-color:lightyellow;border:1px solid green;padding-left:2rem;">
+    </pages>
+
+
+</co-code>
+
+<div class="u-coderunner" onclick="runcode(this,'pages1','pages1runner')">Run Code</div>
+
+<pages id="pages1runner" class="u-codetarget" style="max-height: fit-content;"></pages>
+
+<co-markdown>
+## Assets
+
+The first parameter to the `show()` function is an [Asset](@asset.html). 
+
+Assets are used in COML to specify resources such as other COML files, images, css etc.
+
+
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

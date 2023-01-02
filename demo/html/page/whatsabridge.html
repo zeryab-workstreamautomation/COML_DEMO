@@ -1,0 +1,59 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+  
+<co-markdown>
+A bridge is a COML component that brings in the functions of another Javascript library.
+
+Currently, COML has the following bridges.
+
+## Open UI5
+
+[Open UI5](https://openui5.hana.ondemand.com/controls) is a Javascript library of controls.
+
+To use the Open UI5 bridge control:
+
+1. Insert a link to the Open UI5 library in your SPA's loading page.
+2. Use the special COMl Attachment point for UI5.
+3. Use the `ui5` component element as shown in the ui5 samples pages.
+
+Here is the code for (1) and (2):
+</co-markdown>
+
+<co-code src="ui5index.html" class="u-code-20">
+
+</co-code>
+
+<co-markdown>
+
+To embed ui5 controls inside your html, see [Some example uses](@ui5/sap.m.input.html)
+
+## ChartJS
+
+[ChartJS](https://www.chartjs.org/docs/latest/samples/information.html) is a javascript library of charts with animation.
+
+To use ChartJS:
+
+1. Insert a link to the ChartJS library in your SPA's loading page.
+2. Use the `chartjs` component element as shown in the [chartjs samples page](@chartjs/barchart.html).
+
+</co-markdown>
+
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

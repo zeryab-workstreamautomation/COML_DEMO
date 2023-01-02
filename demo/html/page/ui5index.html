@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+
+    <!-- Open UI5 -->
+    
+    <script id='sap-ui-bootstrap' src='https://openui5.hana.ondemand.com/resources/sap-ui-core.js'
+        data-sap-ui-theme='sap_belize'
+        data-sap-ui-libs='sap.m,sap.ui.core,sap.ui.layout,sap.ui.table,sap.f' 
+        data-sap-ui-compatVersion='edge'
+        data-sap-ui-preload='sync' 
+        data-sap-ui-logLevel="error">
+    </script>  
+    
+
+    <script>
+        require(['coml/Coml'],
+            (_module) => {
+                let coml = new _module.default(false); // true=dontUseUI5
+                coml.attachTo("lift-off", 'myfirstcomlpage.html');
+            });
+    </script>
+</head>
+
+<body class="coml-body">
+    <div id='lift-off'>
+        Please wait while COML loads
+    </div>
+</body>
+
+</html>

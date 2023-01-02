@@ -1,0 +1,72 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+<co-markdown>
+## A Bar chart
+
+In the sample below, try changing the type of chart from 'bar' to 'pie', 'line' or 'radar' and press `Run Code` to see results.
+
+For additional configurations (The object to supply to `this.settings()`), visit [Chart JS Configuration](https://www.chartjs.org/docs/latest/configuration/)
+
+</co-markdown>
+
+
+<co-code id="chartjsbar1" class="u-code-big">
+    <script>
+        this.import('coml/bridge/chartjs/CoChartjs');
+    </script>
+
+    <div>
+
+        <div>
+            <h1>Chart JS</h1>
+            <co-chartjs>
+                <script>
+                    this.settings({
+                        type: 'bar', // try bar,pie,line,radar
+                        data: {
+                            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                            datasets: [{
+                                label: '# of Votes',
+                                data: [12, 19, 3, 5, 2, 3],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    })
+                </script>
+            </co-chartjs>
+        </div>
+    </div>
+
+</co-code>
+  
+<div class="u-coderunner" onclick="runcode(this,'chartjsbar1','chartjsbar1runner')">Run Code</div>
+
+<pages id="chartjsbar1runner" class="u-codetarget" style="max-height: fit-content;"></pages>
+
+
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

@@ -1,0 +1,50 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+<co-markdown>
+## Settings
+
+See [https://sapui5.hana.ondemand.com/#/api/sap.m.ExpandableText%23controlProperties](https://sapui5.hana.ondemand.com/#/api/sap.m.ExpandableText%23controlProperties)
+
+</co-markdown>
+
+
+<co-code id="sapminput2" class="u-code-medium">
+    <script>
+        this.import('coml/bridge/ui5/UI5CoElement');
+      </script>
+      
+      <ui5 class="input" ui5class="sap.m.ExpandableText">
+        <script>
+          this.settings({
+                   text:`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus pharetra velit in lobortis varius. Morbi id sapien enim. Aenean ullamcorper luctus lectus. Aenean pretium felis ullamcorper ligula fringilla pharetra. Aliquam in justo condimentum, accumsan urna quis, hendrerit erat. Nam sed tincidunt velit, sit amet dapibus nulla. Praesent eget aliquet lacus. Vestibulum sodales maximus tempus. Maecenas sed libero laoreet, aliquet ex non, tempor purus. Vivamus volutpat dolor nec convallis semper. Curabitur a pretium quam. Phasellus ac est nec est varius dignissim. Proin finibus porttitor nibh, ac posuere tellus porttitor a. Nunc ut finibus lacus.`,
+            //overflowMode:"{overflowMode}"   
+          })
+        </script>
+      </ui5>
+       
+</co-code>
+  
+<div class="u-coderunner" onclick="runcode(this,'sapminput2','sapminput2runner')">Run Code</div>
+
+<pages id="sapminput2runner" class="u-codetarget" style="max-height: fit-content;"></pages>
+
+
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

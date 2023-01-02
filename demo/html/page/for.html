@@ -1,0 +1,125 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/popup.html',type:'page'},'co-popup');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+
+<co-markdown>
+A for loop is a convenient way to iterate over lists and counters.
+
+## Fixed lists
+
+Here is a fixed list of fruit to iterate over:
+</co-markdown>
+
+
+<co-code id="loop1" class="u-code-medium">
+    <script>
+        this.import('coml/element/For');
+    </script>
+
+    <!-- Over a list in an attribute 'in' -->
+    <for in="Oranges,Apples,Bananas" countername="fruit">
+        
+        <h2>${this.fruit}</h2>
+
+    </for>
+</co-code>
+
+<div class="u-coderunner" onclick="runcode(this,'loop1','loop1runner')">Run Code</div>
+
+<pages id="loop1runner" class="u-codetarget"></pages>
+
+<co-markdown>
+## Counters
+
+A for loop can iterates over a count. The current value can be read from the `this` object
+in a field given by the `countername` attribute.
+ 
+</co-markdown>
+
+<co-code id="loop2" class="u-code-medium">
+    <script>
+        this.import('coml/element/For');
+    </script>
+
+    <for count="10" countername="mycounter">
+        <div>${this.mycounter}</div>
+    </for>
+</co-code>
+
+<div class="u-coderunner" onclick="runcode(this,'loop2','loop2runner')">Run Code</div>
+
+<pages id="loop2runner" class="u-codetarget"></pages>
+
+
+<co-markdown>
+## Over items specified via code
+
+A `for` loop can iterate over a list specified via code.
+ 
+</co-markdown>
+
+<co-code id="loop3" class="u-code-medium">
+    <script>
+        this.import('coml/element/For');
+        this.cars = [{
+            model: 'Corolla',
+            engSize: 'medium'
+          },
+          {
+            model: 'Camry',
+            engSize: 'big'
+          },
+                         {
+            model: 'Avalon',
+            engSize: 'verybig'
+          },
+                         {
+            model: 'Prius',
+            engSize: 'hybrid'
+          },
+        ];
+      </script>
+      <style>
+        .u-sidebyside {
+          display: flex;
+          flex-direction: row;
+        }
+      
+        .u-sidebyside div {
+          padding: 0.5rem;
+          border: 1px solid yellowgreen;
+          min-width: 10rem;
+          margin: 0.25rem;
+        }
+      </style>
+      
+      <for countername="car" inthis="cars">
+      
+        <div class="u-sidebyside">
+          <div>${this.car.model}</div>
+          <div>${this.car.engSize}</div>
+        </div>
+      </for>   
+</co-code>
+
+<div class="u-coderunner" onclick="runcode(this,'loop3','loop3runner')">Run Code</div>
+
+<pages id="loop3runner" class="u-codetarget"></pages>
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+</body>

@@ -1,0 +1,19 @@
+{ // to find module resolution bugs, use `tsc --traceResolution >a.txt`
+  "extends": "./tsconfig-base.json",
+  "compilerOptions": {
+    "outFile": "./js/coml/coml.js",
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "rootDir": "./src", // the folder from which to generate outdir. if excluded src will be preppended 
+    "typeRoots": [
+      "./@types"
+    ],
+  },
+  "baseUrl": "./dist",
+  "include": [
+    "src" 
+  ],
+  "exclude": [
+    "node_modules",
+  ],
+}

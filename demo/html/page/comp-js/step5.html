@@ -1,0 +1,138 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoError');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+  
+<co-markdown>
+
+We will let the user specify the latitude/longitude for the weather component.
+
+
+
+</co-markdown>
+
+<co-code id="step5a" src="comp-js/step5.js" mode="javascript" class="u-code-30"></co-code>
+
+<div class="u-coderunner" onclick="executejs(this,'step5a','step5aerror')">Compile</div>
+
+<co-error id="step5aerror"></co-error>
+
+
+<co-markdown>
+
+Here is the modified page that uses the component.
+
+</co-markdown>
+   
+   
+ <co-code id="sstep5b" class="u-code-20">
+   <script>
+     this.import('WeatherFactory');
+     this.import('coml/bridge/ui5/UI5CoElement');
+
+     this.lat=52;
+     this.lon=13;
+
+     this.setLat = ()=>{
+      this.lat=this.get('ui5#lat').getControl().getValue();
+      this.invalidate('co-weather',true);
+     };
+
+     this.setLon = ()=>{
+      this.lon=this.get('ui5#lon').getControl().getValue();
+      this.invalidate('co-weather',true);
+     };
+
+   </script>
+
+  <div style="display:flex;flex-direction:row;">
+    <ui5 id="lat" ui5class="sap.m.StepInput">
+      <script>
+        this.settings({
+          max: 90,
+          min: -90,
+          step: 1,
+          textAlign: sap.ui.core.TextAlign.Center,
+          value: this.lat,
+          change: this.setLat.bind(this)
+        })
+      </script>
+    </ui5>
+
+    <ui5 id="lon" ui5class="sap.m.StepInput">
+      <script>
+        this.settings({
+          max: 180,
+          min: -180,
+          step: 1,
+          textAlign: sap.ui.core.TextAlign.Center,
+          value: this.lon,
+          change: this.setLon.bind(this)
+        })
+      </script>
+    </ui5>
+
+  </div> 
+ 
+  <co-weather lat="${this.lat}" long="${this.lon}" style="display:flex;flex-direction:column;">
+    <div style="display:flex;flex-direction:row;${(this.iter('co-weather')%2)?'':'background-color:#e0e9e3;'}">
+      <div style="width:5rem;">#${this.iter('co-weather')+1}</div>
+      <co-temperature></co-temperature>
+    </div>
+  </co-weather>
+ 
+ 
+ </co-code>
+ 
+ <div class="u-coderunner" onclick="runcode(this,'sstep5b','sstep5brunner')">Run Code</div>
+ 
+ <pages id="sstep5brunner" class="u-codetarget" style="max-height: fit-content;"></pages>
+
+<co-markdown>
+## `lat` and `lon` variables
+
+Two variables `lat` and 'lon` have now been added in the `this` object.
+
+The [attr()](@coml-fns/attr.html) method has been used to pass these to the  `&lt;co-temperature lat="${this.lat}" long="${this.lon}"&gt;` using string template expansion.
+
+## User Input
+
+Two [Open ui5](@whatisabridge.html) [Step Controls](@ui5/sap.m.stepinput.html) handle the Latitude and Longitude change.
+
+These call the two methods `setLat` and `setLon` added to the `this` object of the test page, whenever the user changes a value.
+
+The functions update the `lat` or `lon` variable, then call [invalidate()](@coml-fns/invalidate.html) to repaint the weather.
+
+## Forgetting cached state
+
+The weather component fetches the weather data once from the online service then reuses it on every call to `onRender()` triggered by `invalidate()`.
+
+This makes updates efficient if COML repaints the weather component when the lat/long has not changed. 
+
+However, now the lat/long does change - so there must be a way to tell the Weather class to 'forget' the old cached state.
+
+This is achieved by calling `invalidate()` with the optional parameter `forget` set to true. 
+
+This will make COML check for the presence of the optional method [forget()](@forget.html) on the Component. If present this is called, and no further action is taken by `invalidate()`.
+
+The method `forget` discards the cached `temperature_2m` array and regenerates it from the online weather service, using the current value of the `lat` and `long` attributes. It will call `invalidate()` (with the forget NOT set to true) when the data arrives.
+
+</co-markdown>
+
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

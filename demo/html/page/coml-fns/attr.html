@@ -1,0 +1,47 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+<co-markdown>
+## `attr&lt;T extends (number|string|boolean)=string&gt;(attr:string,defvalue?:T) : T;` 
+
+Returns the value of an attribute from the source node, after evaluating any ${} expressions.
+ 
+`@param attr` The attribute from the Component to return
+
+`@param defvalue` (Optional) The default value to use if the attribute does not exist.
+
+## Use
+
+`attr()` will evaluate JavaScript template literals inside  any attribute of an element. You can use the `this` object inside these evaluations.
+
+If the `this` object on which `attr` is being called is a [COML Template](@coml-js-v-coml.html) then the attribute is first checked in the `parameters` passed to the template before checking the attributes on the element.
+
+Otherwise, the if the attribute does not exist on the element, its containing COML Template object is consulted for the attribute, and failing this, the default value is returned. 
+
+## Examples
+
+For an example using `attr()` in a [COML template](@coml-js-v-coml.html) see [Using attributes](@comp-coml/step5.html)
+
+For a use of `attr()` in a COML component see the 'fetchWeather' function in [Fetching data asynchronously](@comp-js/step3.html).
+
+
+</co-markdown>
+
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

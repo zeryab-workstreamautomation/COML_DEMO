@@ -1,0 +1,67 @@
+<script>
+  this.import('coml/element/Pages');
+
+  this.switchTab = (event) => {
+    if (event.target.classList.contains('u-btn-sel'))
+      return; // already selected
+
+    // load the asset that was clicked
+    let asset2load = event.target.getAttribute('asset2load');
+    let pages = this.get('pages.u-tabs-content');
+    pages.show(asset2load, 'up');
+
+    // unselect all tabs
+    let all = this.$(".u-tabs-strip").querySelectorAll('.u-tab-btn');
+    for (let e of all) {
+      e.classList.remove('u-btn-sel');
+    }
+    // select the clicked one
+    event.target.classList.add('u-btn-sel');
+
+  }
+</script>
+<style>
+  .u-tabs-outer {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .u-tabs-strip {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .u-tabs-content {
+    height: 12rem;
+    min-width: 30rem;
+    padding: 0.5rem;
+    background-color: hsl(103deg 18% 82%);
+  }
+
+  .u-tab-btn {
+    box-sizing: border-box;
+    background-color: hsl(103deg 18% 72%);
+    color: white;
+    margin: 0.25rem;
+    padding: 0.25rem;
+    height: 100%;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .u-btn-sel {
+    background-color: hsl(103deg 18% 52%);
+    cursor: auto;
+  }
+</style>
+
+<body tabsize="2rem">
+  <div insertion-root="true" class="u-tabs-outer">
+    <div class="u-tabs-strip" style="height:${this.attr('tabsize')};font-size:calc(${this.attr('tabsize')} - 1rem);">
+      <div class="u-tab-btn" hole="tab-title" onclick="this.switchTab(event)" asset2load="test.html">Tab Button</div>
+    </div>
+    <pages class="u-tabs-content">
+
+    </pages>
+  </div>
+</body>

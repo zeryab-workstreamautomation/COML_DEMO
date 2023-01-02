@@ -1,0 +1,22 @@
+{
+  /* common tsconfig. Include in all TNG/WBI projects by using the '"extends": "./tsconfig-base.json"' directive */
+  "compilerOptions": {
+  //  "sourceMap": true, // c
+    "rootDir": "./src", // c
+    "module": "amd", // c
+    "target": "es5", // c
+    "lib": [
+      "dom",
+      "es2020",//"es2018", // changed April 2021 to support BigInt
+      "esnext.asynciterable" // added Oct/2020: for IDB error Property 'asyncIterator' does not exist on type 'SymbolConstructor'
+      ], // c
+    "moduleResolution": "node", // c
+    "noEmit":false,
+    
+    "esModuleInterop": false, // c
+    "allowSyntheticDefaultImports": true, // c
+    "downlevelIteration": true, // c added to allow iterations over Collections (sets and maps)    
+    "skipLibCheck": true,                     /* Skip type checking of declaration files. */
+    },
+  "compileOnSave": false
+}

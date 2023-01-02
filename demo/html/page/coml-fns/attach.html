@@ -1,0 +1,98 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+<co-markdown>
+## `attach(parent: Node | string, toAttach: CoElement | AssetID | string, parameters?: { [key: string]: any }): Promise&lt;CoElement&gt;;` 
+
+Attaches a [COML Document asset](@asset.html) to the specified node. The new document is rendered after attachment as if it was a child of the parent node. [detach](@detach.html) can be called to remove the document.
+
+`@param  parent` The target or source dom node or query selector whose child the new control will become.
+
+`@param  toAttach` The control or [COML Document asset](@asset.html) to attach.
+
+`@param  parameters` (Optional), if 'toAttach' was an asset, then optional parameters to pass to te asset. This object is available to the asset as 'this.parameters'
+
+`@return` A promise that resolves when the asset has loaded. 
+
+## Use
+
+`attach()` is used to insert COML documents inside an existing COML document. There is no need to [import](@coml-fns/import.html) The document before attaching it.
+
+This is useful when a complex user interface needs to be shown when needed, for example, to put up a [Popup window](@popup.html).
+
+## Examples
+
+Here is an example of a popup
+</co-markdown>
+
+<co-code id="tobe1" class="u-code-15">
+  <script>
+    this.import({ name: 'element/popup.html', type: 'page' }, 'co-popup');
+  </script>
+
+  <co-popup popup-title="Hello, Popup!" resizable="true" width="50vw" height="40vh" x="40%" y="10%">
+
+    <div plughole="content">
+      Hello Attached World!
+    </div>
+  </co-popup>
+
+</co-code>
+<co-markdown>
+
+Below is a simple page that attaches the above popup: 
+
+Run the code, then press the buttons to call attach or detach.
+
+</co-markdown>
+
+<co-code id="attachcaller" class="u-code-20">
+
+  <style>
+    .u-btn {
+      background-color: hsl(285deg 72% 79%);
+      color: white;
+      height: 2rem;
+      box-sizing: border-box;
+      padding: 0.2rem;
+      cursor: pointer;
+      margin: 1rem;
+      text-align: center;
+      line-height: 1.6rem;
+    }
+  </style>
+
+  <div class="u-attach2me">Attaches Here</div>
+
+  <div class="u-btn" onclick="this.attach('div.u-attach2me',{name:'tobe1',type:'page'})">
+     Call Attach.
+  </div>
+
+  <div class="u-btn" onclick="this.detach('div.u-attach2me')">
+    Call Detach.
+ </div>
+
+</co-code>
+
+<div class="u-coderunner" onclick="runcode(this,'attachcaller','attachcallerrunner')">Run Code</div>
+
+<pages id="attachcallerrunner" class="u-codetarget" style="max-height: fit-content;"></pages>
+
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

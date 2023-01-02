@@ -1,0 +1,163 @@
+<html>
+
+<head>
+    <script>
+        /**
+         * A Tabbed container.
+         **/ 
+        this.container=null;
+
+        this.onAfterRender(()=>{
+            //this.container=this.tnode('.u-tab-container');
+            this.container=this.getTN().tnode;
+            this.buildTabs();
+        });
+
+        this.buildTabs = ()=>{
+            // empty the header row:
+            let tabrow=this.container.querySelector('.u-tabrow');
+            
+            while (tabrow.lastElementChild) {
+                tabrow.removeChild(tabrow.lastElementChild);
+            }
+
+            // build new children that are headers
+            this.container
+            .querySelectorAll('.u-tab .u-tab-item')
+            .forEach((elem)=>{
+                this.addTabTitle(tabrow,elem.getAttribute('tab-title'),elem.classList.contains('u-tab-sel'));
+            });
+
+            // select one only
+            if (this.container.querySelectorAll('.u-tabrow .u-tab-header.u-tab-sel').length!=1) {
+                let first=this.container.querySelector('.u-tabrow .u-tab-header');
+                if (first)
+                    this.select(first.getAttribute('tab-title'));
+            }
+        }
+
+        this.addTabTitle = (tabrow,text,sel) =>{
+            let div=document.createElement('div');
+
+            div.textContent=text;
+            div.setAttribute('tab-title',text);
+            div.classList.add('u-tab-header');
+            if (sel)
+                div.classList.add('u-tab-sel');
+            tabrow.appendChild(div);
+
+            div.addEventListener('click',(ev)=>{
+                this.select(div.getAttribute('tab-title'));
+            },false);
+        }
+
+        this.select = (title)=>{
+            this.container
+            .querySelectorAll('.u-tabrow .u-tab-header')
+            .forEach((elem)=>{
+                let etitle=elem.getAttribute('tab-title');
+                if (title==etitle) {
+                    elem.classList.add('u-tab-sel');
+                } else {
+                    elem.classList.remove('u-tab-sel');
+                }
+            });
+
+            this.updateVisibleTab();
+        }
+
+        this.getSelectedTitle = ()=>{
+            let elem=this.container.querySelector('.u-tabrow .u-tab-sel');
+
+            if (elem)
+                return elem.getAttribute('tab-title');
+        }
+
+        this.updateVisibleTab = () =>{
+            let ctitle=this.getSelectedTitle();
+            this.container
+            .querySelectorAll('.u-tab .u-tab-item')
+            .forEach((elem)=>{
+                let title=elem.getAttribute('tab-title');
+                if (title==ctitle) {
+                    elem.classList.add('u-tab-sel');
+                } else {
+                    elem.classList.remove('u-tab-sel');
+                }
+            });
+
+        }
+
+    </script>
+    <style>
+.u-tabs * {
+    --tab-size: 2rem;
+    --tab-header-colr: lightblue;
+    --tab-header-sel-colr: rgb(153, 190, 203);
+}
+
+.u-tabs {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.u-tab-container  {
+    display: flex;
+    flex-direction: column;
+}      
+
+.u-tabrow {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+    align-items: flex-start;
+}
+
+.u-tab-header {
+    box-sizing: border-box;
+    height: var(--tab-size);
+    text-align: center;
+    line-height: var(--tab-size);
+    font-size: calc(var(--tab-size) * 0.67);
+    padding-left: calc(var(--tab-size) * 0.1);
+    padding-right: calc(var(--tab-size) * 0.1);
+    background-color: var(--tab-header-colr);
+    cursor: pointer;
+}
+
+.u-tab-header.u-tab-sel {
+    background-color: var(--tab-header-sel-colr);
+    cursor: auto;
+}
+
+
+.u-tab {
+    height:100%;
+    background-color: azure;
+}
+
+
+.u-tab-item {
+    display: none;
+}
+
+.u-tab-item.u-tab-sel {
+    display: block;
+}
+
+    </style>
+</head>
+
+<body width="100%" height="400px" class="u-tabs">
+    <div class="u-tab-container" style="width:${this.attr('width','500px')};height:${this.attr('height','200px')};">
+        <div class="u-tabrow">
+        </div>
+        <div class="u-tab" insertion-root="true">
+            <div tab-title="Tab One" class="u-tab-item" hole="tab">
+                This is content 1
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

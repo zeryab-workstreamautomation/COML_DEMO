@@ -1,0 +1,39 @@
+<html>
+
+<head>
+    <script>
+        this.import('coml/element/CoInsert');
+
+        this.topbarClicked = (e)=>{
+            let item=e.target.getAttribute('item');
+            if (item)
+                this.dispatchEvent('topselected',{page:page});
+        }
+    </script>
+    <style>
+        .u-tbar {
+            display: flex;
+            flex-direction: row;
+        }
+        .u-tbar .u-title {
+            font-size: calc(var(--tbar-size) * 0.6);
+            line-height: var(--tbar-size);
+            text-align: center;
+            width: 100%;
+        }
+
+        .u-tbar .u-logo {
+            display: flex;
+            padding-bottom: 3px;
+        }
+    </style>
+</head>
+
+<body class="u-tbar" onclick="this.topbarClicked(event)">
+    <div class="u-logo">
+        <img src="demo/html/image/conwl.png"></img>
+    </div>
+    <div class="u-title">The COML Demo</div>
+</body>
+
+</html>

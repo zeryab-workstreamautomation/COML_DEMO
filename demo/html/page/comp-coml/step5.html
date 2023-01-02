@@ -1,0 +1,73 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+  
+<co-markdown>
+Attributes can be set on COML Template elements, just as they can be set on a regular html element or COML Component.
+
+We will set a `tabsize` attribute, and test it be setting a default value in the `&lt;body&gt;` of the template.
+
+This default value will be replaced by the attribute set by the calling element. The default value is useful for testing the template on its own.
+
+</co-markdown>
+
+<co-code id="tabs5" src="comp-coml/tabs5.html" class="u-code-25">
+
+</co-code>
+
+<div class="u-coderunner" onclick="runcode(this,'tabs5','tabs5runner')">Run Code</div>
+
+<pages id="tabs5runner" class="u-codetarget" style="max-height: fit-content;"></pages>
+
+
+<co-markdown>
+
+We can now test this by creating multiple tabbed containers  with different sizes:  
+
+</co-markdown>
+
+<co-code id="usetabs5" class="u-code-15">
+<script>
+    this.import({name:'tabs5',type:'page'},'co-simpletabs');
+    this.import('coml/element/For');    
+</script>
+
+<div>
+  <for in="3rem,4rem,5rem" countername="mysize">
+        
+    <co-simpletabs tabsize="${this.mysize}">
+      <div>
+        <div plughole="tab-title" asset2load="test2.html">Tab 1</div>
+        <div plughole="tab-title" asset2load="test.html">Another Tab</div>
+        <div plughole="tab-title" asset2load="test2.html">Tab #3</div>
+      </div>
+    </co-simpletabs>
+
+  </for>
+
+</div>
+
+</co-code>
+
+<div class="u-coderunner" onclick="runcode(this,'usetabs5','usetabs5runner')">Run Code</div>
+
+<pages id="usetabs5runner" class="u-codetarget" style="max-height: fit-content;"></pages>
+
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

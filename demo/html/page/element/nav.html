@@ -1,0 +1,87 @@
+<html>
+
+<head>
+    <script>
+        this.getDesc = (which) => {
+            let p = getTOCpage(which);
+            if (p)
+                return p.description;
+            return '';
+        }
+
+        this.navTo = (which) => {
+            let p = getTOCpage(which);
+            if (p)
+                showPage(p.page, (which == 'next') ? 'to' : 'back');
+        }
+
+        this.empty = (which) => {
+            let p = getTOCpage(which);
+            if (!p)
+                return ('u-empty');
+            return '';
+        }
+
+
+
+    </script>
+    <style>
+        .u-nav,
+        .u-nav * {
+            --nav-height: 3rem;
+        }
+
+        .u-nav {
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            min-height: var(--nav-height);
+            height: var(--nav-height);
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .u-nav-btn {
+            text-align: center;
+            white-space: nowrap;
+            display: block;
+            margin: 0.5rem;
+            background-color: #99b28f;
+            color: white;
+            padding: 0.3rem;
+            border-radius: 0.25rem;
+            font-size: 0.8rem;
+            line-height: 0.8rem;
+            height: 0.8rem;
+            cursor: pointer;
+            max-width: 12rem;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        .u-nav .u-curr {
+            width: fit-content;
+            text-align: center;
+            line-height: var(--nav-height);
+            font-size: calc(var(--nav-height) * 2 / 3);
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .u-nav-btn.u-empty {
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body class="u-nav" show-title="false">
+    <div class="u-nav-btn u-prev ${this.empty('prev')}" onclick="this.navTo('prev')">Last: ${this.getDesc('prev')}</div>
+    <div class="u-curr">${(this.attr('show-title')=='false') ? '':this.getDesc()}</div>
+    <div class="u-nav-btn u-next ${this.empty('next')}" onclick="this.navTo('next')">Next: ${this.getDesc('next')}</div>
+</body>
+
+</html>

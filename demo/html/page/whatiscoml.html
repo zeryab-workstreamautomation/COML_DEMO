@@ -1,0 +1,67 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/popup.html',type:'page'},'co-popup');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+    </script>
+</head>
+
+<body>
+<co-nav></co-nav>
+
+<co-markdown>
+
+COML (Component Markup Language) is a javascript library for building SPAs (Single Page Applications) using regular html syntax pages.
+
+Here is COML code to show a popup window:
+</co-markdown>
+
+<co-code id="hellopopup" class="u-code-medium">
+        <script>
+            this.import({name:'element/popup.html',type:'page'},'co-popup');
+        </script>
+    <co-popup popup-title="Hello, Popup!"  resizable="true" width="50vw" height="40vh" x="40%" y="10%">
+        <div plughole="content">
+           Hello World!
+        </div>
+    </co-popup> 
+</co-code>
+
+<div class="u-coderunner" onclick="runcode(this,'hellopopup','hellorunner')">Run Code</div>
+
+<pages id="hellorunner" class="u-codetarget"></pages>
+
+<co-markdown>
+    
+You can create loops, for example:
+</co-markdown>
+
+
+<co-code id="fruitloop" class="u-code-medium">
+    <script>
+        this.import('coml/element/For');
+    </script>
+
+    <!-- Over a list in an attribute 'in' -->
+    <for in="Oranges,Apples,Bananas" countername="fruit">
+        
+        <h2>${this.fruit}</h2>
+
+    </for>
+</co-code>
+
+<div class="u-coderunner" onclick="runcode(this,'fruitloop','fruitrunner')">Run Code</div>
+
+<pages id="fruitrunner" class="u-codetarget"></pages>
+
+
+<co-nav show-title="false"></co-nav>
+<div class="u-page-spacer"></div>
+
+</body>
+
+</html>

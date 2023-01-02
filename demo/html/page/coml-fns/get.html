@@ -1,0 +1,49 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+<co-markdown>
+
+## `get(selectorOrNode: Node | string,getfunc?:(component:CoElement)=>any): CoElement;` 
+
+Return a Component if the component has currently been instantiated for this selector or node
+
+if a getfunc is provided, this is called exactly once - either immediately if the coelement is available or later when it is instantiated.
+
+`@param selectorOrNode` an snode, tnode, TargetNode or [source/target document selector](https://developer.mozilla.org/en-US/docs/Web/API/Document_object_model/Locating_DOM_elements_using_selectors).
+
+`@param getfunc` an optional function that will be called now or later exactly once with the CoElement of this node supplied.
+
+## Use
+
+The `get` function is used to get the Component (CoElement) so that functions on it can be called. If the Component has been rendered already then it is returned. If not, and a getfunc is supplied, the function is queued for calling when the component is next rendered.
+
+## Examples
+
+### Calling a function 
+
+</co-markdown>
+<co-code mode="javascript" class="u-code-10">
+// call a function setTitle() on the component co-creature-tbar
+this.get('co-creature-tbar',(co)=>{
+  co.setTitle('Creatures');
+});
+
+</co-code>
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

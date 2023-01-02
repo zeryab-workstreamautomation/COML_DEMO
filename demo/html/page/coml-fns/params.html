@@ -1,0 +1,40 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+<co-markdown>
+## `params() : any;` 
+
+Returns the parameter block as set by any parent Component for this component
+
+## Use
+
+`params()` is used to fetch data stored by a parent component for its children. This lets child Components fetch state information explicitly set for them by a parent for an iteration of a child.
+
+This method works even when child Components are [invalidated](@coml-fns/invalidate.html) or are painted after the parent iteration has completed, due to asynchronous execution.
+
+A parent sets parameter information for its childeren during rendering, by passing in the child's tag, iteration number and parameter to the [Render.renderChildren()](@render.html) function.
+
+## Examples
+
+See [Using nested elements](@comp-js/step4.html)
+
+</co-markdown>
+
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

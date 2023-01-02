@@ -1,0 +1,34 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+<co-markdown>
+## `detach(toDetach: string | CoElement): Promise&lt;CoElement&gt;;` 
+
+Detaches a previously [attached()](@coml-fns/attach.html) control or document.
+
+`@param toDetach` The control that was attached, or the source or target node or query selector of the parent from which to detach all previously attached controls
+
+## Examples
+
+See [attach()](@coml-fns/attach.html) examples.
+
+</co-markdown>
+
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

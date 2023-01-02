@@ -1,0 +1,382 @@
+<html>
+
+<head>
+    <script>
+        /**
+         * A toc-page was clicked. Fire an event with the page as payload 
+         */ 
+        this.lastpage;
+
+        this.setLastPage= (page)=>{
+            if (this.lastpage) {
+                this.$(`.u-toc-page[page="${this.lastpage}"]`,'selclass',(elem)=>{
+                    elem.classList.remove('u-sel');
+                });
+            }
+            this.lastpage=page;
+            if (this.lastpage) {
+                this.$(`.u-toc-page[page="${this.lastpage}"]`,'selclass',(elem)=>{
+                    elem.classList.add('u-sel');
+                });
+            }
+        }
+
+
+        this.tocClicked = (e)=>{
+            let page=e.target.getAttribute('page');
+            if (page) {
+                this.setLastPage(page);
+                this.dispatchEvent('pageselected',{page:page});
+            }
+        }
+
+        /**
+         * Returns the 'next' or 'prev' (or current if undefined) page as an object
+         * {page:'pageid',description:'The text in TOC'}
+         **/ 
+        this.getPage = (which)=>{
+            if (this.lastpage) {
+                //console.log('xxxxx');
+                let elem=document.querySelector(`.u-toc-page[page="${this.lastpage}"]`);
+                if (elem) {
+                    let order=elem.getAttribute('order');
+                    if (order)
+                        order=Number.parseInt(order);
+                    if (which=='next')
+                        order++;
+                    if (which=='prev')
+                        order--;
+                    elem=document.querySelector(`.u-toc-page[order="${order}"]`);
+                    if (elem) {
+                        let page=elem.getAttribute('page');
+                        if (page)
+                            return {page:page,description:elem.textContent.trim()};
+                    } 
+                }
+            }
+        }
+
+        this.toggleExpand = (e)=>{
+            e.stopPropagation();
+            if (e.target.classList.contains('u-toc-section-title')) {
+                let chap=e.target.parentElement;
+
+                chap.classList.toggle('u-collapsed');
+            }
+        }
+    </script>
+    <style>
+        .u-toc * {
+            --title-size: 2rem;
+            --page-size: calc(var(--title-size) * 0.8);
+            --indent: 0.6rem;
+        }
+
+        .u-toc {
+            padding-top: 1rem;
+            overflow: hidden;
+        }
+
+        .u-toc-section {
+            min-width: var(--toc-min-size);
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            padding-left: calc(var(--indent));
+        }
+
+        .u-toc-section .u-toc-section {
+            padding-left: calc(var(--indent) + 22px);
+        }
+
+        .u-toc-section.u-collapsed {
+            height: var(--title-size);
+            overflow-y: hidden;
+        }
+
+        .u-toc-section-title {
+            width:100%;
+            height: var(--title-size);
+            line-height: var(--title-size);
+            font-size: calc(var(--title-size) * 0.6);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            white-space: nowrap;
+        }
+
+        .u-toc-section-title::before {
+            content: url('demo/html/image/icons8-expand-arrow-24.png');
+            width: 24px;
+            height: 24px;
+            background-color: #e0e9e3;
+            margin-right: 0.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .u-collapsed .u-toc-section-title::before {
+            transform: rotate(-90deg);
+        }
+
+
+        .u-toc-page {
+            width:100%;
+            height: var(--page-size);
+            line-height: var(--page-size);
+            font-size: calc(var(--page-size) * 0.6);
+            padding-left: calc(24px + 0.5rem);
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .u-toc-page.u-sel {
+            font-weight: bold;
+            cursor: auto;
+        }
+    </style>
+</head>
+
+<body class="u-toc" onclick="this.tocClicked(event)">
+    <script>
+        this.i=0;
+    </script>
+    <div class="u-toc-section">
+        <div class="u-toc-section-title" onclick="this.toggleExpand(event)">Introduction</div>
+        <div class="u-toc-page" order="${this.i++}" page="whatiscoml.html">What is COML?</div>
+        <div class="u-toc-page" order="${this.i++}" page="components.html">Components</div>
+        <div class="u-toc-page" order="${this.i++}" page="asset.html">Assets</div>
+    </div>
+
+    <div class="u-toc-section">
+        <div class="u-toc-section-title" onclick="this.toggleExpand(event)">List of components</div>
+        <div class="u-toc-page" order="${this.i++}" page="for.html">For</div>
+        <div class="u-toc-page" order="${this.i++}" page="pages.html">Pages</div>
+        <div class="u-toc-page" order="${this.i++}" page="popup.html">Popup</div>
+        <div class="u-toc-page" order="${this.i++}" page="split.html">Split</div>
+    </div>
+
+    <div class="u-toc-section">
+        <div class="u-toc-section-title" onclick="this.toggleExpand(event)">Building a COML App</div>
+        <div class="u-toc-page" order="${this.i++}" page="buildapp/step1.html">Loading COML - The index page</div>
+        <div class="u-toc-page" order="${this.i++}" page="buildapp/step2.html">Building the frame</div>
+        <div class="u-toc-page" order="${this.i++}" page="buildapp/step3.html">Adding a Pages area</div>
+        <div class="u-toc-page" order="${this.i++}" page="buildapp/step4.html">Turn the toolbar into a COML Template</div>
+        <div class="u-toc-page" order="${this.i++}" page="buildapp/step5.html">Handling events from the toolbar</div>
+        <div class="u-toc-page" order="${this.i++}" page="buildapp/step6.html">Setting the title of the toolbar</div>
+    </div>
+
+    <div class="u-toc-section">
+        <div class="u-toc-section-title" onclick="this.toggleExpand(event)">Writing Components</div>
+        <div class="u-toc-page" order="${this.i++}" page="coml-js-v-coml.html">Javascript Components vs COML Templates</div>
+        <div class="u-toc-section">
+            <div class="u-toc-section-title" onclick="this.toggleExpand(event)">Javascript Components</div>
+            <div class="u-toc-page" order="${this.i++}" page="comp-js/step1.html">Hello World!</div>
+            <div class="u-toc-page" order="${this.i++}" page="comp-js/step2.html">Weather element</div>
+            <div class="u-toc-page" order="${this.i++}" page="comp-js/step3.html">Fetching data asynchronously</div>
+            <div class="u-toc-page" order="${this.i++}" page="comp-js/step4.html">Using nested elements</div>
+            <div class="u-toc-page" order="${this.i++}" page="comp-js/step5.html">Handling parameter changes</div>
+        </div>
+        <div class="u-toc-section">
+            <div class="u-toc-section-title" onclick="this.toggleExpand(event)">COML Templates</div>
+            <div class="u-toc-page" order="${this.i++}" page="comp-coml/step1.html">Structure of a template</div>
+            <div class="u-toc-page" order="${this.i++}" page="comp-coml/step2.html">Tabbed container</div>
+            <div class="u-toc-page" order="${this.i++}" page="comp-coml/step3.html">Testing the template</div>
+            <div class="u-toc-page" order="${this.i++}" page="comp-coml/step4.html">Multiple tabs</div>
+            <div class="u-toc-page" order="${this.i++}" page="comp-coml/step5.html">Using attributes</div>
+        </div>
+    </div>
+
+
+    <div class="u-toc-section">
+        <div class="u-toc-section-title" onclick="this.toggleExpand(event)">COML functions</div>
+        <div class="u-toc-page" order="${this.i++}" page="coml-fns/this.html">The 'this' Object</div>
+        <div class="u-toc-page" order="${this.i++}" page="coml-fns/dollar.html">$</div>
+        <div class="u-toc-page" order="${this.i++}" page="coml-fns/attach.html">attach</div>
+        <div class="u-toc-page" order="${this.i++}" page="coml-fns/attr.html">attr</div>
+        <div class="u-toc-page" order="${this.i++}" page="coml-fns/dispatchevent.html">dispatchEvent</div>
+        <div class="u-toc-page" order="${this.i++}" page="coml-fns/detach.html">detach</div>
+        <div class="u-toc-page" order="${this.i++}" page="coml-fns/get.html">get</div>
+        <div class="u-toc-page" order="${this.i++}" page="coml-fns/import.html">import</div>
+        <div class="u-toc-page" order="${this.i++}" page="coml-fns/invalidate.html">invalidate</div>
+        <div class="u-toc-page" order="${this.i++}" page="coml-fns/iter.html">iter</div>
+        <div class="u-toc-page" order="${this.i++}" page="coml-fns/params.html">params</div>
+        <div class="u-toc-page" order="${this.i++}" page="render.html">The 'Render' object</div>
+    </div>
+
+    <div class="u-toc-section">
+        <div class="u-toc-section-title" onclick="this.toggleExpand(event)">Bridges to other libraries</div>
+        <div class="u-toc-page" order="${this.i++}" page="whatsabridge.html">What's a bridge?</div>
+
+        <div class="u-toc-section">
+            <div class="u-toc-section-title" onclick="this.toggleExpand(event)">Open UI5</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/ActionListItem.html'>sap.m.ActionListItem</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/ActionSelect.html'>sap.m.ActionSelect</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/ActionSheet.html'>sap.m.ActionSheet</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/ActionTile.html'>sap.m.ActionTile</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/ActionTileContent.html'>sap.m.ActionTileContent</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/AdditionalTextButton.html'>sap.m.AdditionalTextButton</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/App.html'>sap.m.App</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/AssociativeOverflowToolbar.html'>sap.m.AssociativeOverflowToolbar</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/Avatar.html'>sap.m.Avatar</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/Bar.html'>sap.m.Bar</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/Breadcrumbs.html'>sap.m.Breadcrumbs</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/BusyDialog.html'>sap.m.BusyDialog</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/BusyIndicator.html'>sap.m.BusyIndicator</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/Button.html'>sap.m.Button</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/Carousel.html'>sap.m.Carousel</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/CheckBox.html'>sap.m.CheckBox</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/ColorPalette.html'>sap.m.ColorPalette</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/ColorPalettePopover.html'>sap.m.ColorPalettePopover</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/ColumnHeaderPopover.html'>sap.m.ColumnHeaderPopover</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/ColumnListItem.html'>sap.m.ColumnListItem</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/ComboBox.html'>sap.m.ComboBox</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/ComboBoxBase.html'>sap.m.ComboBoxBase</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/ComboBoxTextField.html'>sap.m.ComboBoxTextField</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/CustomAttribute.html'>sap.m.CustomAttribute</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/CustomTile.html'>sap.m.CustomTile</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/CustomTreeItem.html'>sap.m.CustomTreeItem</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/DatePicker.html'>sap.m.DatePicker</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/DateRangeSelection.html'>sap.m.DateRangeSelection</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/DateTimeField.html'>sap.m.DateTimeField</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/DateTimeInput.html'>sap.m.DateTimeInput</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/DateTimePicker.html'>sap.m.DateTimePicker</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/Dialog.html'>sap.m.Dialog</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/DisplayListItem.html'>sap.m.DisplayListItem</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/DraftIndicator.html'>sap.m.DraftIndicator</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/DynamicDateRange.html'>sap.m.DynamicDateRange</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/ExpandableText.html'>sap.m.ExpandableText</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/FacetFilter.html'>sap.m.FacetFilter</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/FacetFilterList.html'>sap.m.FacetFilterList</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/FeedContent.html'>sap.m.FeedContent</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/FeedInput.html'>sap.m.FeedInput</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/FeedListItem.html'>sap.m.FeedListItem</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/FlexBox.html'>sap.m.FlexBox</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/GenericTag.html'>sap.m.GenericTag</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/GenericTile.html'>sap.m.GenericTile</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/GroupHeaderListItem.html'>sap.m.GroupHeaderListItem</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/GrowingList.html'>sap.m.GrowingList</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/HBox.html'>sap.m.HBox</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/HeaderContainer.html'>sap.m.HeaderContainer</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/IconTabBar.html'>sap.m.IconTabBar</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/IconTabFilterExpandButtonBadge.html'>sap.m.IconTabFilterExpandButtonBadge</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/IllustratedMessage.html'>sap.m.IllustratedMessage</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/Illustration.html'>sap.m.Illustration</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/Image.html'>sap.m.Image</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/ImageContent.html'>sap.m.ImageContent</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/Input.html'>sap.m.Input</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/InputBase.html'>sap.m.InputBase</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/InputListItem.html'>sap.m.InputListItem</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/Label.html'>sap.m.Label</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/LightBox.html'>sap.m.LightBox</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/Link.html'>sap.m.Link</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/List.html'>sap.m.List</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/ListBase.html'>sap.m.ListBase</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/ListItemBase.html'>sap.m.ListItemBase</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/MaskInput.html'>sap.m.MaskInput</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/Menu.html'>sap.m.Menu</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/MenuButton.html'>sap.m.MenuButton</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/MenuListItem.html'>sap.m.MenuListItem</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/MessageBox.html'>sap.m.MessageBox</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/MessagePage.html'>sap.m.MessagePage</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/MessagePopover.html'>sap.m.MessagePopover</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/MessageStrip.html'>sap.m.MessageStrip</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/MessageToast.html'>sap.m.MessageToast</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/MultiComboBox.html'>sap.m.MultiComboBox</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/MultiEditField.html'>sap.m.MultiEditField</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/MultiInput.html'>sap.m.MultiInput</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/NavContainer.html'>sap.m.NavContainer</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/NewsContent.html'>sap.m.NewsContent</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/NotificationList.html'>sap.m.NotificationList</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/NotificationListGroup.html'>sap.m.NotificationListGroup</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/NotificationListItem.html'>sap.m.NotificationListItem</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/NumericContent.html'>sap.m.NumericContent</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/NumericInput.html'>sap.m.NumericInput</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/ObjectHeader.html'>sap.m.ObjectHeader</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/ObjectIdentifier.html'>sap.m.ObjectIdentifier</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/ObjectListItem.html'>sap.m.ObjectListItem</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/ObjectMarker.html'>sap.m.ObjectMarker</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/ObjectNumber.html'>sap.m.ObjectNumber</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/ObjectStatus.html'>sap.m.ObjectStatus</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/OverflowToolbar.html'>sap.m.OverflowToolbar</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/OverflowToolbarButton.html'>sap.m.OverflowToolbarButton</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/OverflowToolbarMenuButton.html'>sap.m.OverflowToolbarMenuButton</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/OverflowToolbarToggleButton.html'>sap.m.OverflowToolbarToggleButton</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/Page.html'>sap.m.Page</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/PagingButton.html'>sap.m.PagingButton</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/Panel.html'>sap.m.Panel</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/PDFViewer.html'>sap.m.PDFViewer</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/PlanningCalendar.html'>sap.m.PlanningCalendar</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/PlanningCalendarHeader.html'>sap.m.PlanningCalendarHeader</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/PlanningCalendarLegend.html'>sap.m.PlanningCalendarLegend</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/Popover.html'>sap.m.Popover</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/ProgressIndicator.html'>sap.m.ProgressIndicator</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/PullToRefresh.html'>sap.m.PullToRefresh</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/QuickView.html'>sap.m.QuickView</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/QuickViewCard.html'>sap.m.QuickViewCard</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/QuickViewPage.html'>sap.m.QuickViewPage</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/RadioButton.html'>sap.m.RadioButton</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/RadioButtonGroup.html'>sap.m.RadioButtonGroup</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/RangeSlider.html'>sap.m.RangeSlider</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/RatingIndicator.html'>sap.m.RatingIndicator</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/ResponsivePopover.html'>sap.m.ResponsivePopover</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/SearchField.html'>sap.m.SearchField</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/SegmentedButton.html'>sap.m.SegmentedButton</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/Select.html'>sap.m.Select</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/SelectionDetails.html'>sap.m.SelectionDetails</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/SelectList.html'>sap.m.SelectList</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/Shell.html'>sap.m.Shell</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/SinglePlanningCalendar.html'>sap.m.SinglePlanningCalendar</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/SinglePlanningCalendarGrid.html'>sap.m.SinglePlanningCalendarGrid</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/SinglePlanningCalendarMonthGrid.html'>sap.m.SinglePlanningCalendarMonthGrid</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/Slider.html'>sap.m.Slider</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/SliderTooltip.html'>sap.m.SliderTooltip</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/SlideTile.html'>sap.m.SlideTile</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/SplitButton.html'>sap.m.SplitButton</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/SplitContainer.html'>sap.m.SplitContainer</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/StandardListItem.html'>sap.m.StandardListItem</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/StandardTile.html'>sap.m.StandardTile</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/StandardTreeItem.html'>sap.m.StandardTreeItem</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/StepInput.html'>sap.m.StepInput</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/Switch.html'>sap.m.Switch</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/TabContainer.html'>sap.m.TabContainer</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/Table.html'>sap.m.Table</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/TabStrip.html'>sap.m.TabStrip</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/Text.html'>sap.m.Text</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/TextArea.html'>sap.m.TextArea</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/Tile.html'>sap.m.Tile</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/TileContainer.html'>sap.m.TileContainer</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/TileContent.html'>sap.m.TileContent</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/TimePicker.html'>sap.m.TimePicker</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/TimePickerClocks.html'>sap.m.TimePickerClocks</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/TimePickerInputs.html'>sap.m.TimePickerInputs</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/TimePickerSliders.html'>sap.m.TimePickerSliders</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/Title.html'>sap.m.Title</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/ToggleButton.html'>sap.m.ToggleButton</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/Token.html'>sap.m.Token</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/Tokenizer.html'>sap.m.Tokenizer</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/Toolbar.html'>sap.m.Toolbar</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/ToolbarSeparator.html'>sap.m.ToolbarSeparator</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/ToolbarSpacer.html'>sap.m.ToolbarSpacer</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/Tree.html'>sap.m.Tree</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/UploadCollection.html'>sap.m.UploadCollection</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/VBox.html'>sap.m.VBox</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/WheelSlider.html'>sap.m.WheelSlider</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/WheelSliderContainer.html'>sap.m.WheelSliderContainer</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/Wizard.html'>sap.m.Wizard</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/WizardProgressNavigator.html'>sap.m.WizardProgressNavigator</div>
+            <div class='u-toc-page' order='${this.i++}' page='ui5/sap.m/WizardStep.html'>sap.m.WizardStep</div>
+                        
+            
+        </div>
+
+        <div class="u-toc-section">
+            <div class="u-toc-section-title" onclick="this.toggleExpand(event)">Chart JS</div>
+            <div class="u-toc-page" order="${this.i++}" page="chartjs/barchart.html">Bar chart</div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

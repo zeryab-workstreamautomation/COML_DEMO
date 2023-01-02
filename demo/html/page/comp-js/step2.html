@@ -1,0 +1,65 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoError');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+  
+<co-markdown>
+
+We will create a `&lt;co-weather  lat="52.52" long="13.41"&gt;` component that will display the temperature at a longitude / latitude.   
+
+To begin with, we will simply hard code a temperature result.
+
+</co-markdown>
+
+<co-code id="step2a" src="comp-js/step2.js" mode="javascript" class="u-code-20"></co-code>
+
+<div class="u-coderunner" onclick="executejs(this,'step2a','step2aerror')">Compile</div>
+
+<co-error id="step2aerror"></co-error>
+
+
+<co-markdown>
+
+Here is a simple page that uses the component.
+   
+ </co-markdown>
+   
+   
+ <co-code id="sstep2b" class="u-code-small">
+   <script>
+     this.import('WeatherFactory');
+   </script>
+ 
+   <co-weather></co-weather>
+ 
+ 
+ </co-code>
+ 
+ <div class="u-coderunner" onclick="runcode(this,'sstep2b','sstep2brunner')">Run Code</div>
+ 
+ <pages id="sstep2brunner" class="u-codetarget" style="max-height: fit-content;"></pages>
+
+<co-markdown>
+
+The code is very similar to the [Hello example](@coml-js/step1.html). We have changed the element name, and
+are simply showing the fixed temperature from the array in `temperature_2m`;
+
+</co-markdown>
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

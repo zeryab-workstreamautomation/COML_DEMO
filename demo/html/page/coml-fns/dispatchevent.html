@@ -1,0 +1,98 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+<co-markdown>
+## `dispatchEvent(eventname: string, detail?: { [key: string]: any }, options?: EventInit): Event;` 
+
+Dispatch a DOM [synthetic event](https://developer.mozilla.org/en-US/docs/Web/Events/Creating_and_triggering_events) on an Element.
+
+`@param eventname` The event to send, example 'myevent'. 
+
+`@param detail` (Optional) the object that will be received by any listener in the `event.detail` parameter. Use this to send any information to the listener. The property `event.detail.sender` is automatically set to the caller.
+
+## Use
+
+`dispatchEvent` is used to inform listeners of events, using the same mechanism that is used in standard html programming. 
+
+In standard html, you could handle a standard event 'click' like this:
+</co-markdown>
+<co-code class="u-code-10">
+  <script>
+      myhandler = (event)=>{
+        console.log("I'm clicked!");
+      }
+  </script>
+  <div class="u-button" onclick="myhandler(event)">Click Me!</div>
+</co-code>
+<co-markdown>
+
+In the same way you can define a custom event in your COML Component and send it. In both cases the declaration of the event listener, either inside the element declaration as above, or via Javascript `element.addEventListener()` is the same.  
+
+Here is how you would send a greetings event your Component:
+
+</co-markdown>
+<co-code class="u-code-5" mode="javascript">
+  // sending an event:
+
+  this.dispatchEvent('hello',{message:'Greetings!'});
+</co-code>
+<co-markdown>
+
+... and how your COML html will handle it declaratively:
+</co-markdown>
+<co-code class="u-code-10">
+  <script>
+      this.myhandler = (event)=>{
+        console.log("Message is "+event.detail.message);
+      }
+  </script>
+  <co-mygreeter>Click Me!</co-mygreeter>
+</co-code>
+<co-markdown>
+
+  ... and how your COML html will handle it using a Javascrpt addEventListener:
+</co-markdown>
+<co-code class="u-code-10">
+  <script>
+      this.myhandler = (event)=>{
+        console.log("Message is "+event.detail.message);
+      }
+      this.$('co-mygreeter','addedhandler',(elem)=>{
+          elem.addEventListener('hello',this.myhandler);
+      });
+  </script>
+  <co-mygreeter onhello="this.myhandler(event)">Click Me!</co-mygreeter>
+</co-code>
+<co-markdown>
+
+## Examples
+
+See [Handling events from the toolbar](@buildapp/step5.html)
+  
+</co-markdown>
+<co-code class="u-code-5">
+
+</co-code>
+<co-markdown>
+
+
+</co-markdown>
+
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

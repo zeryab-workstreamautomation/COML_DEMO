@@ -1,0 +1,132 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+<co-markdown>
+#`interface Render`
+
+## Use
+
+The render object is supplied as a parameter to a Component's `onRender(rm)` method.
+
+It is used to create the html element(s) needed to show the component.
+
+All its methods return the same Render object for call chaining.
+
+## Example
+
+Here is a typcal example of generating a `&lt;div class="u-hello" draggable="true"&gt;Hello, World&lt;/div&gt;` using Render:
+
+</co-markdown>
+<co-code mode="javascript" class="u-code-10">
+rm.openStart('div',this) 
+  .class('u-hello')       
+  .attr('draggable',true)
+  .copyAttrExcept(this),   
+  .openEnd();               
+
+  rm.text('Hello, World!'); // add text content
+
+  rm.renderChildren(this); // add any elements from this Component's children
+
+rm.close('div');         
+</co-code>
+<co-markdown>
+
+
+
+## Methods
+
+### `openStart(tagName:string,component?:CoElement) : Render;`
+
+Opens the start tag of an HTML element. This must be followed by `openEnd` and concluded with `close`. To allow a more efficient DOM update,
+all tag names have to be used in their canonical form. For [HTML elements](https://developer.mozilla.org/en-US/docs/Web/HTML/Element)
+must all be set in lowercase. 
+
+If this is the topmost element for the component, you must pass `this` as the 2nd parameter.
+
+`@param tagName` The element to create. E.g. 'div'.
+
+`@param component` The component being rendered. Only needed if this element is the topmost of the elements being created for this component.
+
+### `class(classname:string) : Render;`
+
+Adds a class name to the class collection of the last open HTML element.
+This is only valid when called between `openStart` and `openEnd`. 
+
+`@param classname` The name of the html class to add. The class name must not contain any whitespace.
+
+### `attr(key:string,value:string) : Render;`
+
+Adds an attribute name-value pair to the last open HTML element. This is only valid when called between `openStart` and `openEnd`. The attribute name
+must not be equal to `style` or `class`. Styles and classes must be set via dedicated `class` or `style` methods
+
+### `style(key:string,value:string) : Render;`
+
+Adds a style name-value pair to the style collection of the last open HTML element. This is only valid when called between `openStart` and `openEnd`. 
+
+### `openEnd() : Render;`
+
+Ends an open tag started with `openStart`.
+
+This indicates that there are no more attributes to set to the open tag.
+
+### `text(sText:string) : Render;`
+
+Sets the text content with the given text.
+
+### `unsafeHtml(sHtml: string): Render;`
+
+Sets any markup within the open tag. This function is provided for backward compatibility only. Normal html content should be rendered using the normal `openStart/openEnd/close` chain of calls
+
+`sHtml` Well-formed, valid HTML markup
+
+### `close(sTag:string) : Render;`
+
+Closes an open tag started with `openStart` and ended with `openEnd`.
+
+This indicates that there are no more children to append to the open tag.
+
+### `renderChildren(component:CoElement, iteration?:number,parametersPerChild?:{[tagname:string]:any}) : Render;`
+
+Renders the children snodes (i.e. any elements embedded within) the calling component.
+If called multile times by a Component, for example to create multiple iterations,
+then the 'iteration' parameter must be increased from previous (starting from 0) on each successive call.
+
+`@param component` The component whose children are to be rendered.
+
+`@param iteration` The iteration - if not specified to 0
+
+`@param parametersPerChild` The parameters to store per child tag. The child can retrieve this using its [params()](@coml-fns/params.html) method. 
+
+### `copyAttrExcept(component:CoElement,doNotCopy?: string[],copyFrom?: Node) : Render;`
+
+Copy attributes and classes from this components source node, with ${} expansion into the last opened HTML element.
+
+`@param component` The component 
+
+`@param doNotCopy` (Optional) an array of attributes to NOT copy.
+
+`@param copyFrom`  (Optional) the element to copy from. If not specified, defaults to this component's source node
+
+    
+
+</co-markdown>
+
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

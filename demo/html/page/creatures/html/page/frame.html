@@ -1,0 +1,63 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="{'name':'demo.css','type':'css'}">
+
+    <style>
+        html {
+            overflow: hidden;
+        }
+
+
+        .u-coml-creatures * {
+            --tbar-size: 3.6rem;
+            --toc-min-size: 15rem;
+
+            --tbar-bk-color :  #99b28f;
+        }
+
+        .u-coml-creatures .u-frame {
+            font-family: Arial, Helvetica, sans-serif;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* toolbars */
+        .u-coml-creatures .u-tbar {
+            height: var(--tbar-size);
+            width: 100%;
+            background-color:var(--tbar-bk-color);
+            color: white;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+
+        .u-coml-creatures .u-main-split {
+            height: calc(100vh - var(--tbar-size));
+        }
+
+        .u-coml-creatures .u-ws-page-container {
+            height: 100%;
+            overflow: auto;
+            padding-right: 1.5rem;
+            padding-left: 1.0rem;
+        }
+
+        body {
+            margin: 0;
+        }
+    </style>
+
+    <script>
+    </script>
+</head>
+
+<body id="code" class="u-coml-creatures">
+    <div class="u-frame">
+        Creatures 1.
+    </div>
+</body>
+
+</html>

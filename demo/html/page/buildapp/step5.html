@@ -1,0 +1,65 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+  
+<co-markdown>
+
+We want the toolbar to tell its owner when a user clicks an item. Just like any other html element, we want to use [html events](https://www.w3schools.com/js/js_events.asp) to tell us when an item has been clicked.
+
+We will modify the tbar template to dispatch a custom `toolbaraction` event when the user clicks an item.
+
+We add a new function called `sendEventToOwner(event)` which is called on click. It will use the [dispatchEvent](@coml-fns/dispatchevent.html) function to send the id of the clicked item to the template's owner.
+
+</co-markdown>
+
+<co-code id="tbar_html" src="creatures/html/page/tbar-6.html" class="u-code-15">
+
+</co-code>
+
+<div class="u-coderunner" onclick="runcode(this,'tbar_html','step5arunner')">Run Code</div>
+
+<pages id="step5arunner" class="u-codetarget" style="height: 4rem;"></pages>
+
+<co-markdown>
+
+## Handling events
+
+In the frame, we can add an event handler on this new event. This is set on the `co-creature-tbar` tag as `ontoolbaraction=this.tbarAction(event)`
+
+The function `tbarAction` can access the id using the `details` object in the html event received.
+
+Insert a `debugger` statement inside this functon then use the browser's degugger window  to step through how the action is handled.
+
+</co-markdown>
+
+<co-code id="step5b" src="creatures/html/page/frame-6.html" class="u-code-20">
+
+</co-code>
+
+<div class="u-coderunner" onclick="runcode(this,'step5b','step5brunner')">Run Code</div>
+
+<pages id="step5brunner" class="u-codetarget" style="height: 20rem;"></pages>
+
+<co-markdown>
+
+
+</co-markdown>
+
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

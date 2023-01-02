@@ -1,0 +1,44 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+  
+<co-markdown>
+We will build a small interactive app that lets users click and select animals from a list and shows their pictures.
+
+Every app must have a an `index` page that loads COML. This pages will use `script` tags to load COML and any other javascript libraries
+the app uses.
+
+Here is a very sample `index.html` page that loads just the libs needed by COML (`jquery`,`requirejs` and `coml.js`).
+The code around line 20 loads COML and attaches it to the element identified by the id `lift-off`.
+
+Note the second parameter in `coml.attachTo("lift-off", 'frame.html');`. This is the first COML page and will set up the user interface of the app.
+
+</co-markdown>
+
+<co-code src="creatures/index.html" class="u-code-25">
+
+</co-code>
+
+<co-markdown>
+
+ 
+</co-markdown>
+
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

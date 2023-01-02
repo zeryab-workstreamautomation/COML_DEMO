@@ -1,0 +1,21 @@
+{ // to find module resolution bugs, use `tsc --traceResolution >a.txt`
+  //tsc --project tsconfig.declaration.json
+  "extends": "./tsconfig-base.json",
+  "compilerOptions": {
+    "composite": false,
+    "declaration":true,
+    "emitDeclarationOnly": true,
+   "declarationDir":"./ts-types", 
+   "rootDir": "./src",   // the folder from which to generate outdir. if excluded src will be preppended 
+    "typeRoots": [
+      "./node_modules/@types",
+      "./@types"
+    ],
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+  ],
+}

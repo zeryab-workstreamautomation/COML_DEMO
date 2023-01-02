@@ -1,0 +1,86 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+<co-markdown>
+
+## `$(selectorOrNode: Node | string | TargetNode, changeid?: string, changer?: (Element) => any): Element;` 
+
+Returns the generated target node (tnode) for the given parameter. Optionally lets the caller specify a 'state changer'
+callback that will be called to effect changes of state to the tnode. The state changer is stored so that
+the changes are recreated on every repaint of the tnode.
+  
+`@param selectorOrNode` an snode, tnode, TargetNode or [source/target document selector](https://developer.mozilla.org/en-US/docs/Web/API/Document_object_model/Locating_DOM_elements_using_selectors).
+
+`@param changeid` (Optional but required if changer is specified) a unique id of the change or '' for non-persistency. If another changer is added again with the same id, it will replace the earlier changer. If the same changeid is specified without a changer, then any earlier changer attached to this node is removed.
+
+`@param changer` (Optional) The callback to effect changes, that will be called when the tnode is available. If currently available, the callback will be called immediately. The callback will also be called on any subsequent repaint of the tnode, until another `$` call on the same node and changeid either removes, or changes the callback.
+
+## Use
+
+The `$` function is used to either read or change attributes, classes or event listeners on elements generated from a COML page.
+
+This should be used over [document.querySelector()](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector). It will work for both source and target selectors and nodes.
+
+The second form, which takes a changeid and changer function, is the most robust way to read and make changes to elements.
+
+The changer is stored against the node and changeid, so that regeneration of the target node by an [invalidate()](@coml-fns/invalidate.html) will trigger this call again.
+
+## Examples
+
+### Reading styles 
+
+</co-markdown>
+<co-code mode="javascript" class="u-code-10">
+// reading a style immediately (if element has been rendered):  
+let style=this.$('co-popup.myclass').getAttribute('style');
+
+// reading a style now (if rendered) or later (if not)
+this.$('co-popup.myclass','',(elem)=&gt;{ // will be called now or later - not persisted
+  let style=elem.getAttribute('style');
+});
+
+</co-code>
+<co-markdown>
+Note in the first example example, calling `$` when the target node has not been generated will result in undefined being returned from `$`. In this case you should use the second form with a callback
+
+### Adding a class or attribute
+</co-markdown>
+<co-code mode="javascript" class="u-code-5">
+this.$('co-popup.myclass','mychange',(elem)=&gt;{ // will be called now or later - persisted
+  elem.classList.add('u-selected');
+  elem.setAttribut('foo','bar');
+})
+</co-code>
+<co-markdown>
+
+### Adding an event listener
+</co-markdown>
+<co-code mode="javascript" class="u-code-10">
+
+this.foo = (e)=>{
+  console.log(`Triggered`);
+}  
+
+this.$('co-popup.myclass','myaddlistener',(elem)=&gt;{ // will be called now or later - persisted
+  elem.addEventListener('click',this.foo);
+})
+
+</co-code>
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

@@ -1,0 +1,48 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+<co-markdown>
+## `import(importee:string|AssetID,tagForAsset?:string) : Promise;` 
+
+Imports a COML factory, allowing its use as an Element tag in the importing document. Both COML [Components and Templates](@coml-js-v-coml.html) can be imported. 
+ 
+`@param importee` The fully qualified path to a COML CoElementFactory (e.g. `coml/element/CoFields`) or the assetId of a COML Template.
+
+`@param tagForAsset` (optional), required only if importee is an assetId. The tag to use for this asset's CoElement
+
+## Use
+
+For a COML Component: `this.import('coml/example/ComponentFactory');`
+
+For a COML Template:  `this.import({name:'AssetName.html',type:'page'},'co-something');`
+
+`import` will make available a [COML Component](@components.html) or a [COML Template](@templates) available for use inside the importing [asset](@asset.html).
+
+In the first case, the html tag to use is specified by the component itself. In the second case the second parameter lets you specify the tag name.
+
+## Examples
+
+For a COML Component see [For](@for.html) or [Pages](@pages.html)
+
+For a COML Template see [Popup](@popup.html) or [Split](@split.html)
+
+</co-markdown>
+
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

@@ -1,0 +1,81 @@
+<html>
+
+<head>
+    <style>
+        .u-creatures * {
+            --tbar-size: 3rem;
+            --toc-min-size: 15rem;
+
+            --tbar-bk-color: hwb(54deg 52% 2%);
+            --pages-bk-color: hwb(54deg 76% 0%);        
+            --nav-color:  hwb(54deg 2% 5%);       
+        }    
+
+        .u-creatures {
+            width:100%;
+            height:100%
+        }
+
+        .u-creatures .u-frame {
+            width:100%;
+            height:100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .u-creatures .u-cr-tbar {
+            width: 100%;
+            height: var(--tbar-size);
+            min-height: var(--tbar-size);
+            box-sizing: border-box;
+            background-color: var(--tbar-bk-color);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .u-creatures .mymainpages {
+            height:100%;
+            background-color:var(--pages-bk-color);
+        }
+
+        .u-creatures .u-cr-nav {
+            background-color:var(--nav-color);
+            color: white;
+            height: calc(var(--tbar-size) * 0.8);
+            box-sizing: border-box;
+            padding: calc(var(--tbar-size) * 0.1);
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        this.import('coml/element/Pages');    
+
+        this.pages=['creatures/html/page/lion.html','creatures/html/page/tiger.html','creatures/html/page/elephant.html'];
+        this.currpage=-1;
+
+        this.forward = () =>{
+            this.currpage=Math.max(0,Math.min(this.pages.length-1,this.currpage+1));
+            this.get('pages.mymainpages').show(this.pages[this.currpage],'to');
+        }
+
+        this.back = () =>{
+            this.currpage=Math.max(0,Math.min(this.pages.length-1,this.currpage-1));
+            this.get('pages.mymainpages').show(this.pages[this.currpage],'back');
+        }
+    </script>
+</head>
+
+<body id="code" class="u-creatures">
+    <div class="u-frame">
+        <div class="u-cr-tbar">
+            <div class="u-cr-nav" onclick="this.back()">Back</div>
+            <div class="u-cr-nav" onclick="this.forward()">Next</div>
+        </div>
+        <pages class="mymainpages">
+        </pages> 
+    </div>
+</body>
+
+</html>

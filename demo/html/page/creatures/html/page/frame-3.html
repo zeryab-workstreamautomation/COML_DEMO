@@ -1,0 +1,51 @@
+<html>
+
+<head>
+    <style>
+        .u-creatures * {
+            --tbar-size: 3rem;
+            --toc-min-size: 15rem;
+
+            --tbar-bk-color: hwb(54deg 52% 2%);
+            --pages-bk-color: hwb(54deg 76% 0%);        
+        }    
+
+        .u-creatures {
+            width:100%;
+            height:100%
+        }
+
+        .u-creatures .u-frame {
+            width:100%;
+            height:100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .u-creatures .u-cr-tbar {
+            width: 100%;
+            height: var(--tbar-size);
+            box-sizing: border-box;
+            background-color: var(--tbar-bk-color);
+        }
+
+        .u-creatures .mymainpages {
+            height:100%;
+            background-color:var(--pages-bk-color);
+        }
+    </style>
+    <script>
+        this.import('coml/element/Pages');    
+    </script>
+</head>
+
+<body id="code" class="u-creatures">
+    <div class="u-frame">
+        <div class="u-cr-tbar">
+        </div>
+        <pages class="mymainpages">
+        </pages> 
+    </div>
+</body>
+
+</html>

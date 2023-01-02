@@ -1,0 +1,83 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+<co-markdown>
+
+Each COML page is a Javascript class instance that contains its own logic. You can freely declare and use functions in the html `script`  header of the COML page.
+
+`this` can be referred to anywhere in the COML page using the standard [Javascript '\`' template literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals) 
+and will expand to the given expression. 
+
+You can also refer to `this` in script fragments inside event handling attributes (see `onclick="this.clicked(event)"` in the example below).
+
+There is no need to use backquotes inside html content or attributes - just use `${your code}`.
+
+  
+</co-markdown>
+<co-code id="this1" class="u-code-20">
+  <script>
+    // `this` points to this COML page instance. It has some useful functions
+    // (See coml/This.ts), and you can freely declare methods and variables for your
+    // business logic:
+
+    // a field
+    this.counter = 0;
+
+    // a function 
+    this.clicked = (e) => {
+      this.counter++;
+      console.log('clicked');
+
+      // this has a function invalidate() that repaints the selected element:
+      this.invalidate('.hello-div1');
+
+      // Use $ to access an element on screen given its source (coml file) selector
+      console.log('desc is ' + this.$('.hello-div1').getAttribute('desc'));
+    }
+  </script>
+
+  <div class="hello-div1" onclick="this.clicked(event)" desc="${this.counter}">
+    Click Me! ${this.counter}
+  </div>
+</co-code>
+
+<div class="u-coderunner" onclick="runcode(this,'this1','this1runner')">Run Code</div>
+  
+<pages id="this1runner" class="u-codetarget"></pages>
+<co-markdown>  
+
+## Useful functions available on This
+
+Notice that on click, we need to redraw the 'Click Me!' element because the counter has changed. We used the [invalidate](@coml-fns/invalidate.html) function - this tells COML to redraw a subset of the screen (in this case the element with class `hello-div`).
+
+The following useful functions are available on `this`:
+
+1. [attr](@coml-fns/attr.html) - Read attributes or parameters.
+2. [import](@coml-fns/import.html) - import a COML component or template for use in the current COML file.
+3. [invalidate](@coml-fns/invalidate.html) - redraw the element specified by the given [selector](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Selectors)
+4. [$](@coml-fns/dollar.html) - Return the browser element corresponding to the given [selector](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Selectors)
+5. [get](@coml-fns/get.html) - Return the COML Component that handled the drawing of the given [selector](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Selectors)
+6. [dispatchEvent](@coml-fns/dispatchEvent.html) - sends an event to registered event handlers.
+7. [iter](@coml-fns/iter.html) - Return the iteration number of a child within a parent
+8. [params](@coml-fns/params.html) - Return a parameter block set for a child by a parent
+
+</co-markdown>
+
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

@@ -1,0 +1,42 @@
+<html>
+
+<head>
+    <style>
+        .u-cr-tbar {
+            width: 100%;
+            box-sizing: border-box;
+            background-color: var(--tbar-bk-color);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .u-creatures .u-cr-nav {
+            background-color:var(--nav-color);
+            color: white;
+            height: calc(var(--tbar-size) * 0.8);
+            box-sizing: border-box;
+            padding: calc(var(--tbar-size) * 0.1);
+            cursor: pointer;
+        }
+
+    </style>
+
+    <script>
+        /**
+         * Turn a click into a 'toolbaraction', sending the id of the clicked element in detail.'action'
+         **/ 
+        this.sendEventToOwner = (event)=>{
+            this.dispatchEvent('toolbaraction',{action:event.target.id});
+        }
+    </script>
+</head>
+
+<body tbar-height="2rem">
+    <div insertion-root="true" class="u-cr-tbar" style="height:${this.attr('tbar-height')};min-height:${this.attr('tbar-height')};">  
+        <div hole="tbaritem" class="u-cr-nav" onclick="this.sendEventToOwner(event)" style="height:calc(${this.attr('tbar-height')} * 0.8);padding:calc(${this.attr('tbar-height')} * 0.1);">Item</div>
+    </div>
+</body>
+
+</html>

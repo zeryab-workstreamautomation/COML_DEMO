@@ -1,0 +1,99 @@
+<html>
+
+<head>
+    <script>
+        this.import('demo/element/CoCode');
+        this.import('demo/element/CoMarkdown');
+        this.import('coml/element/Pages');
+        this.import({name:'element/nav.html',type:'page'},'co-nav');
+
+    </script>
+</head>
+
+<body>
+  <co-nav></co-nav>
+  
+<co-markdown>
+We will now turn the toolbar into a COML Template. We will then import it into our frame as a `co-creature-tbar` component.
+
+The toolbar will be a reusable component - this means it does not know what buttons are put inside it. The user of this component may choose to add 1 or more buttons.
+
+Note the following:
+
+### CSS Styles
+Style rules have been moved from the frame code to the tbar component, so they will apply wherever the tbar is used. 
+
+We have removed the height related rules because heights will be supplied via an attribute to our element.
+
+### Template attributes
+
+The caller can specify the tbar's height using the `tbar-height="2rem"` parameter. The `2rem` is the default value that will be used 
+when the template is loaded on its own (for example, during testing). 
+
+`${this.attr('tbar-height')}` is used in the template to set the style heights 
+
+### insertion-root
+
+We specify the template's element that will replace the `co-creature-tbar` element in the caller code by setting the attribute `insertion-root=true`. 
+
+### holes
+
+The div where the caller's toolbar item will be merged into our template is called a 'hole'. We give the hole a name - in this case 'tbaritem'.
+
+</co-markdown>
+
+<co-code id="tbar_html" src="creatures/html/page/tbar-5.html" class="u-code-15">
+
+</co-code>
+
+<div class="u-coderunner" onclick="runcode(this,'tbar_html','step4arunner')">Run Code</div>
+
+<pages id="step4arunner" class="u-codetarget" style="height: 4rem;"></pages>
+
+<co-markdown>
+
+## Replace the toolbar in the frame
+
+Notice the following:
+
+### import
+
+We import the toolbar using the [import](@coml-fns/import.html) function and give it the name `co-creature-tbar`
+
+### Setting attributes
+
+We then replace the original div we were using with the new `co-creature-tbar` element and we specify a `tbar-height` of `2.6rem`.
+
+### Plugging the holes
+
+We want to insert our back and next items into the toolbar. We do this by creating these as divs (but they could have been any tag), and
+specifying the `plughole` attribute to match the `hole` attribute created earlier.
+
+</co-markdown>
+
+<co-code id="step4b" src="creatures/html/page/frame-5.html" class="u-code-20">
+
+</co-code>
+
+<div class="u-coderunner" onclick="runcode(this,'step4b','step4brunner')">Run Code</div>
+
+<pages id="step4brunner" class="u-codetarget" style="height: 20rem;"></pages>
+
+<co-markdown>
+
+## Hole merging
+
+Use the browser's debugger panel to examine the generated elements. You will notice that COML has merged the classes and attributes 
+from the hole with those of the plughole.
+
+Holes can be plugged more than once. This is how we were able to insert both the next and the back button - by giving them the same plughole value.
+
+</co-markdown>
+
+
+<co-nav show-title="false"></co-nav>
+
+<div class="u-page-spacer"></div>
+
+
+</body>

@@ -1,0 +1,7 @@
+node_modules/
+/local/
+/ts-types/
+/js/
+/back/
+**/*/desktop.ini
+*.zip
