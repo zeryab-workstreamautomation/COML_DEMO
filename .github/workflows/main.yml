@@ -26,6 +26,6 @@ jobs:
       run: |-
         git config --global user.name "zeryab-workstreamautomation"
         git config --global user.email "zeryab.khan@workstreamautomation.com"
-        git add js
+        git add -f js
         git commit -m "build from server"
         git push
