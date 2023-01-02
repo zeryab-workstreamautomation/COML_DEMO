@@ -1,0 +1,31 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: TypeScript Build
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build: 
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Pull Repository
+      uses: actions/checkout@v3
+
+    - name: Build & Compile
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci
+    - run: tsc
+
+    - name: Push to Repository
+      run: |-
+        git config --global user.name "zeryab-workstreamautomation
+        git config --global user.email "zeryab.khan@workstreamautomation.com"
+        git add js
+        git commit -m "build from server"
+        git push
